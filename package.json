@@ -1,0 +1,33 @@
+{
+  "name": "spencer-kit",
+  "version": "1.0.0",
+  "description": "spencer kit",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pallyoung/spencer-kit.git"
+  },
+  "keywords": [
+    "npm",
+    "tool",
+    "kit"
+  ],
+  "bin": {
+    "skit": "index.js"
+  },
+  "author": "Spencer Ye",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pallyoung/spencer-kit/issues"
+  },
+  "homepage": "https://github.com/pallyoung/spencer-kit#readme",
+  "dependencies": {
+    "chalk": "^2.0.1",
+    "minimist": "^1.2.0",
+    "prompt": "^1.0.0",
+    "shelljs": "^0.7.8"
+  }
+}
