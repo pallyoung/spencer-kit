@@ -1,0 +1,30 @@
+{
+    "name": "spencer-kit-project-templates",
+    "version": "0.0.1",
+    "author": {
+        "name": "Spencer Ye",
+        "email": "pallyoung@163.com"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/pallyoung/spencer-kit.git"
+    },
+    "bin":{
+        "skitlocal":"local-cli.js"
+    },
+    "main": "local-cli.js",
+    "keywords": [
+        "react",
+        "react-native",
+        "webpack",
+        "gulp",
+        "app"
+    ],
+    "description": "spencer kit project templates",
+    "dependencies": {
+        "chalk": "^2.0.1",
+        "minimist": "^1.2.0",
+        "shelljs": "^0.7.8"
+    }
+}

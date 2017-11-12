@@ -4,12 +4,11 @@ var sh = require('shelljs');
 var fs = require('fs');
 var path = require('path');
 var minimist = require('minimist');
+var prompt = require('prompt');
 var options = minimist(process.argv.slice(2));
 
 var TARGETS = {
     rn: 'react-native',
-    react: 'react',
-    rwm: 'react-webpack-multipage'
 }
 function start(options) {
     var commands = options._;
@@ -26,8 +25,7 @@ function start(options) {
             '  Options:',
             '',
             '    -h, --help    output usage information',
-            '    -t, --target  ',
-            '    --template use an app template. Use --template to see available templates.',
+            '    -t,--template use an app template. Use --template to see available templates.',
             '',
         ].join('\n'));
         process.exit(0);
@@ -46,19 +44,19 @@ function start(options) {
                 );
                 process.exit(1);
             } else {
-                init(commands[1], options);
+                init(commands[1], options.template || options.t || '');
             }
             break;
         default:
             break;
     }
 }
-function init(name, options) {
+function init(name, template) {
     validateProjectName(name);
     if (fs.existsSync(name)) {
-        createAfterConfirmation(name, options);
+        createAfterConfirmation(name, template);
     } else {
-        createProject(name, options);
+        createProject(name, template);
     }
 }
 
@@ -73,7 +71,7 @@ function validateProjectName(name) {
     }
 }
 
-function createProject(name, options) {
+function createProject(name, template) {
     var root = path.resolve(name);
     var projectName = path.basename(root);
 
@@ -85,7 +83,6 @@ function createProject(name, options) {
     if (!fs.existsSync(root)) {
         fs.mkdirSync(root);
     }
-
     var packageJson = {
         name: projectName,
         version: '0.0.1',
@@ -94,11 +91,12 @@ function createProject(name, options) {
         }
     };
     fs.writeFileSync(path.join(root, 'package.json'), JSON.stringify(packageJson));
+    fs.writeFileSync(path.join(root, 'README.md'), '# ' + projectName);
     process.chdir(root);
 
-    run(root, projectName, options);
+    run(root, projectName, template);
 }
-function createAfterConfirmation(name, options) {
+function createAfterConfirmation(name, template) {
     prompt.start();
     var property = {
         name: 'yesno',
@@ -109,15 +107,27 @@ function createAfterConfirmation(name, options) {
     };
     prompt.get(property, function (err, result) {
         if (result.yesno[0] === 'y') {
-            createProject(name, options);
+            createProject(name, template);
         } else {
             console.log('Project initialization canceled');
             process.exit();
         }
     });
 }
-
-function run(root, projectName, options){
-
+function installDependencies(dependencies, isDev) {
+    if (dependencies && dependencies.length > 0) {
+        sh.exec('npm i ' + dependencies.join('\s') + (isDev ? ' -D' : ' -S'))
+    }
+}
+function run(root, projectName, template) {
+    var dependencies = [];
+    var devDependencies = [];
+    var npmIgnore = [];
+    switch (template) {
+        case TARGETS.rn:
+            break;
+    }
+    installDependencies(['spencer-kit-project-templates@./../templates']);
+    sh.exec('node ./node_modules/.bin/skitlocal -p ' + projectName + ' -t ' + template);
 }
 start(options);
