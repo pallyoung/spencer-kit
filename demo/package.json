@@ -1,0 +1,20 @@
+{
+  "name": "demo",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node build.js --env dev --dest release --project demo",
+    "release": "node build.js --env production --dest release --project demo"
+  },
+  "dependencies": {
+    "es5-shim": "^4.5.9",
+    "es6-shim": "^0.35.3",
+    "es7-shim": "^6.0.0",
+    "js-console": "0.0.1",
+    "mlux": "^0.2.16",
+    "react": "^16.1.0",
+    "react-dom": "^16.1.0",
+    "spencer-kit-project-templates": "file:///Users/Spencer/workspace/spencer-kit/templates",
+    "web-http": "^1.0.1"
+  }
+}

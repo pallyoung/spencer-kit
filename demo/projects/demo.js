@@ -3,12 +3,12 @@ module.exports = function (env) {
      * react paths
      */
     var reactjsPaths = [
-        'node_modules/react/dist/react.js',
-        'node_modules/react-dom/dist/react-dom.js'
+        'node_modules/react/umd/react.development.js',
+        'node_modules/react-dom/umd/react-dom.development.js'
     ];
     var reactminjsPaths = [
-        'node_modules/react/dist/react.min.js',
-        'node_modules/react-dom/dist/react-dom.min.js'
+        'node_modules/react/umd/react.production.min.js',
+        'node_modules/react-dom/umd/react-dom.production.min.js'
     ];
 
     function jsPath(path) {
@@ -20,7 +20,7 @@ module.exports = function (env) {
     var shimjsPaths = [
         'node_modules/es5-shim/es5-shim.js',
         'node_modules/es5-shim/es5-sham.js',
-        'node_modules/es6-shim/es6-shim.js')
+        'node_modules/es6-shim/es6-shim.js',
         'node_modules/es6-shim/es6-sham.js',
         'node_modules/es7-shim/es7-shim.js',
     ];
@@ -58,7 +58,7 @@ module.exports = function (env) {
          */
         pages: [
             {
-                title: 'hello world',
+                title: 'demo',
                 template: 'templates.html',
                 output: 'index.html',
                 js: ['shim.js','react.js','index.js'],

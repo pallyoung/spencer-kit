@@ -1,6 +1,6 @@
 'use strict'
 var helper = require('./helper');
-
+var fs = require('fs');
 var sh = require('shelljs');
 var dependencies = [
     'react',
@@ -39,7 +39,16 @@ var devDependencies = [
 ];
 
 function exec(projectName) {
+    var json = JSON.parse(fs.readFileSync('package.json'));
+    json.scripts = {
+        start:'node build.js --env dev --dest release --project '+ projectName,
+        release:'node build.js --env production --dest release --project '+ projectName,
+    }
+    fs.writeFileSync('package.json',JSON.stringify(json));
     helper.mv('node_modules/spencer-kit-project-templates/templates/react_mix_project', './');
+    helper.replace('projects/helloworld.js','hello world',projectName);  
+    helper.rename('projects/helloworld.js','projects/'+projectName+'.js');
+    helper.rename('scss/helloworld','scss/'+projectName);
     sh.exec('npm i ' + dependencies.join(' ') + ' -S');
     sh.exec('npm i ' + devDependencies.join(' ') + ' -D');
 }

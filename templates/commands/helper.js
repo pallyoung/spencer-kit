@@ -6,8 +6,8 @@ function rf(src,callback){
         var stats=fs.statSync(src);
         callback(src);
         if(stats.isDirectory(src)){
-            fs.readdirSync().forEach(function(file){
-                rf(path.join(srr,file),callback);
+            fs.readdirSync(src).forEach(function(file){
+                rf(path.join(src,file),callback);
             })
         } 
     }
@@ -23,7 +23,8 @@ function mv(src,dest){
                 destFile = destFile.replace(/\/_\w/,function(w){
                     return w.replace('_','.');
                 })
-                fs.createReadStream(file).pipe(fs.createWriteStream(destFile));
+                fs.writeFileSync(destFile,fs.readFileSync(file));
+                // fs.createReadStream(file).pipe(fs.createWriteStream(destFile));
             }
         }
     })
@@ -45,9 +46,22 @@ function rm(src){
 function rename(src,dest){
     fs.renameSync(src,dest);
 }
+function replace(src,patten,value){
+    if(fs.existsSync(src)){
+        var result = fs.readFileSync(src).toString().replace(patten,value);
+        fs.writeFileSync(src,result);
+    }
+}
 
-module.exports = {
+var exports = {
     mv,
     rename,
-    rm
+    rm,
+    replace
 }
+
+var command = process.argv.slice(2);
+if(exports[command[0]]){
+    exports[command[0]].apply(exports,command.slice(1));
+}
+module.exports = exports;

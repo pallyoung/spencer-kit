@@ -80,9 +80,10 @@ function createProject(name, template) {
         root
     );
 
-    if (!fs.existsSync(root)) {
-        fs.mkdirSync(root);
+    if (fs.existsSync(root)) {
+       sh.rm('-rf',root);
     }
+    fs.mkdirSync(root);
     var packageJson = {
         name: projectName,
         version: '0.0.1',
