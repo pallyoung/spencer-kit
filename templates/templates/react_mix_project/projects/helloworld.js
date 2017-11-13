@@ -51,7 +51,7 @@ module.exports = function (env) {
          * use webpack to package js
          */
         webpackEntry:{
-            index:'./js/views/pc/pages/Index',
+            index:'./js/views/pages/Index',
         },
         /**
          * html pages
@@ -59,7 +59,7 @@ module.exports = function (env) {
         pages: [
             {
                 title: 'hello world',
-                template: 'templates.html',
+                template: 'template.html',
                 output: 'index.html',
                 js: ['shim.js','react.js','index.js'],
                 css: ['index.css'],
