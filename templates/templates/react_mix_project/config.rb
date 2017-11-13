@@ -3,7 +3,6 @@
 # Set this to the root of your project when deployed:
 
 http_path = "../"
-css_dir = "css"  #编译后的CSS文件地址 
 images_dir = "asset/images"  #sprite源图片路径 
 javascripts_dir = "js" 
 environment = :development

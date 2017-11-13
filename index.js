@@ -116,7 +116,7 @@ function createAfterConfirmation(name, template) {
 }
 function installDependencies(dependencies, isDev) {
     if (dependencies && dependencies.length > 0) {
-        sh.exec('npm i ' + dependencies.join('\s') + (isDev ? ' -D' : ' -S'))
+        sh.exec('npm i ' + dependencies.join(' ') + (isDev ? ' -D' : ' -S'))
     }
 }
 function run(root, projectName, template) {

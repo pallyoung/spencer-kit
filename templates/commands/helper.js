@@ -1,17 +1,16 @@
 'use strict'
 var fs = require('fs');
+var path = require('path');
 function rf(src,callback){
-    fs.exists(src,function(exists){
+    if(fs.existsSync(src)){
         var stats=fs.statSync(src);
-        if(stats.isDirectory()){
-            fs.readdir(src,function(err,files){
-                files.forEach(function(file){
-                    rf(src+'/'+file,callback);
-                })
+        callback(src);
+        if(stats.isDirectory(src)){
+            fs.readdirSync().forEach(function(file){
+                rf(path.join(srr,file),callback);
             })
         } 
-        callback(src);
-    })
+    }
 }
 function mv(src,dest){
     rf(src,function(file){
@@ -29,10 +28,26 @@ function mv(src,dest){
         }
     })
 }
-function rm(){
+function rm(src){
+    if(fs.existsSync(src)){
+        let stats = fs.statSync(src);
+        if(stats.isDirectory()){
+            fs.readdirSync(src).forEach(function(file){
+                rm(path.join(src,file));
+            })
+            fs.rmdirSync(src);            
+        }else{
+            fs.unlinkSync(src);
+        }
+    }
+}
 
+function rename(src,dest){
+    fs.renameSync(src,dest);
 }
 
 module.exports = {
-    mv
+    mv,
+    rename,
+    rm
 }

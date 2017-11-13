@@ -1,11 +1,15 @@
 var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var cssExtractTextPlugin =  new ExtractTextPlugin("css/[name].css");
-
+var cssExtractTextPlugin = new ExtractTextPlugin("css/[name].css");
 var path = require('path');
+
 var defaultConfig = {
-    context: dir.source,
-    output: output,
+    context: path.resolve(__dirname, './'),
+    output: {
+        filename: '[name].js',
+        publicPath: ""
+    },
+    devtool: 'cheap-module-source-map',
     module: {
         rules: [
             {
@@ -43,20 +47,33 @@ var defaultConfig = {
 function buildConfig(argv) {
     argv = argv.split('--');
 
-    var config;
+    var config = defaultConfig;
     var env = argv[0];
     var entry = argv[1];
     var output = argv[2];
     if (env == 'dev') {
-        config = require('./webpack.config.dev.js')
+        config.devtool = 'cheap-module-eval-source-map';
+        config.plugins.concat([
+            new webpack.DefinePlugin({
+                env: JSON.stringify(env),
+                __DEV__: true,
+                'process.env': {
+                    NODE_ENV: '"production"'
+                }
+            })
+        ])
     } else {
-        config = require('./webpack.config.prod.js')
+        config.devtool = 'cheap-module-source-map';
+        config.plugins.concat([
+            new webpack.DefinePlugin({
+                env: JSON.stringify(env),
+                __DEV__: false,
+                'process.env': {
+                    NODE_ENV: '"production"'
+                }
+            })
+        ]);
     }
-
-    config = Object.assign({}, defaultConfig, config);
-    config.plugins.push(new webpack.DefinePlugin({
-        env: JSON.stringify(env)
-    }))
     config.entry = JSON.parse(decodeURI(entry));
     config.output.path = path.resolve('./', output);
     return config;

@@ -5,6 +5,9 @@ var sh = require('shelljs');
 var dependencies = [
     'react',
     'react-dom',
+    'es5-shim',
+    'es6-shim',
+    'es7-shim',
     'mlux',
     'web-http',
     'js-console'
@@ -37,8 +40,8 @@ var devDependencies = [
 
 function exec(projectName) {
     helper.mv('node_modules/spencer-kit-project-templates/templates/react_mix_project', './');
-    sh.exec('npm i ' + depdencies.join('\s') + ' -S');
-    sh.exec('npm i ' + devDependencies.join('\s') + ' -D');
+    sh.exec('npm i ' + dependencies.join(' ') + ' -S');
+    sh.exec('npm i ' + devDependencies.join(' ') + ' -D');
 }
 
 module.exports = exec;

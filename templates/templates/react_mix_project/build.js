@@ -20,9 +20,9 @@ var proxy = require('http-proxy-middleware');
 var options = minimist(process.argv.slice(2));
 require('./AppRegister.prerender');
 
-options.dest = options.dest || 'release';
-options.env = options.env || 'dev';//默认开发环境
-options.target = options.target || 'pc';//默认编译pc的
+options.dest = options.dest || 'release';// release dir
+options.env = options.env || 'dev';//environment,dafault is dev
+options.target = options.target
 
 
 var targetConfig = require('./targets/' + options.target);
@@ -31,22 +31,26 @@ if (typeof targetConfig == 'function') {
     targetConfig = targetConfig(options.env);
 }
 
-var filter = function (pathname, req) {
-    return pathname.match('^/Api');
-};
 
 var serverConfig = {
-    root: options.dest,//从哪个目录开启server
-    port: 8080,//将服务开启在哪个端口
+    root: options.dest,// server root
+    port: 8080,//server port 
     livereload: false,
-    middleware: function (connect, opt) {
-        return [
-            proxy(filter, {
-                target: 'https://testapi.cfylicai.com',
-                changeOrigin: true,
-            })
-        ]
-    }
+    /**
+     * @ description
+     * proxy config,you can uncomment the code below for cross 
+     * origin ajax;
+     */
+    // middleware: function (connect, opt) {
+    //     return [
+    //         proxy( function (pathname, req) {
+    //             return pathname.match('^/ppi');
+    //         }, {
+    //             target: 'https://proxyapi.com',
+    //             changeOrigin: true,
+    //         })
+    //     ]
+    // }
 }
 function TaskDelayer() {
     this.timeoutTokens = {};
