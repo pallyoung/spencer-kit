@@ -9,3 +9,4 @@ class Index extends Component{
         return <div className = 'content'>hello world</div>
     }
 }
+AppRegister.register(<Index />);
