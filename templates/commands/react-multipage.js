@@ -47,9 +47,9 @@ function exec(projectName) {
     }
     fs.writeFileSync('package.json',JSON.stringify(json));
     helper.mv('node_modules/spencer-kit-project-templates/templates/react_multipage', './');
-    helper.mv('node_modules/common/buildConfig','./');
-    helper.mv('node_modules/common/AppRegister.js','./');
-    helper.mv('node_modules/common/AppRegister.prerender.js','./');
+    helper.mv('node_modules/spencer-kit-project-templates/common/buildConfig','./');
+    helper.mv('node_modules/spencer-kit-project-templates/common/AppRegister.js','./');
+    helper.mv('node_modules/spencer-kit-project-templates/common/AppRegister.prerender.js','./');
     helper.replace('project.js',/helloworld/g,projectName);  
     helper.exec('npm i ' + dependencies.join(' ') + ' -S');
     helper.exec('npm i ' + devDependencies.join(' ') + ' -D');

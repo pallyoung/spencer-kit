@@ -33,7 +33,7 @@ module.exports = function (env) {
         /*
         * if compass is true,it will use this dir as its compile dir
         */
-        scssDIR:'scss/helloworld',
+        scssDIR:'scss',
         /**
          * all the js will use gulp-concat to join.
          */

@@ -18,13 +18,11 @@ var proxy = require('http-proxy-middleware');
 
 
 var options = minimist(process.argv.slice(2));
-require('./AppRegister.prerender');
 
 var dest = options.dest || 'release';// release dir
 var env = options.env || 'dev';//environment,dafault is dev
 
-var config = require('buildConfig/BuildConfig');
-var envConfig = require('buildConfig/BuildConfig.'+env);
+
 
 var projectConfig = require('project.js');
 
@@ -52,6 +50,18 @@ var serverConfig = {
     //         })
     //     ]
     // }
+}
+function meger(source,dest){
+    for(var o in source){
+        if(source.hasOwnProperty(o)){
+            if(!dest[o] || typeof dest[o]!=='object'){
+                dest[o] = source[o];
+            }else{
+                dest[o] = meger(source[o],dest[o]);
+            }
+        }
+    }
+    return dest;
 }
 function TaskDelayer() {
     this.timeoutTokens = {};
@@ -85,7 +95,7 @@ function HTMLgenerate(pages) {
 
         ]
         config.js = config.js || [];
-        config.js.unshift('appregister.js');
+        config.js.unshift('buildconfig.js');
         if (config.js) {
             injectFiles.push({
                 name: 'js',
@@ -109,6 +119,7 @@ function HTMLgenerate(pages) {
                 template = injectFile(template, config);
             });
             if(config.prerender&&env!=='dev'){
+                require('./AppRegister.prerender');                
                 var files = [];
                 injectFiles[0].files.forEach(function(v){
                     if(v.indexOf('react') <0){
@@ -123,7 +134,7 @@ function HTMLgenerate(pages) {
                     sh.rm(dest+'/'+config.output+'.js');
                     var html = AppRegister.getTag(config.output);
                     template.pipe(
-                        replace('html_placeholder',html)
+                        replace('html_placeholder\'>','html_placeholder\'>'+html)
                     ).pipe(gulp.dest(dest));
                 });
             }else{
@@ -196,7 +207,6 @@ function hashmifify() {
 
 function concatJS(list, dest) {
     list = list || {};
-    list.appregister = ['AppRegister.js'];
     return new Promise(function (resolve, reject) {
         var readyList = [];
         var taskList = [];
@@ -216,6 +226,20 @@ function concatJS(list, dest) {
     });
 }
 
+
+
+//buile config
+function generateBuildConfigJS(){
+    var buildConfig = require('buildConfig/BuildConfig');
+    var envBuildConfig = require('buildConfig/BuildConfig.'+env);
+    buildConfig = meger(envBuildConfig,buildConfig);
+    var js = '(function(){window.BuildConfig='+JSON.stringify(buildConfig)+'}());';
+    var appregister = fs.readFileSync('AppRegister.js');
+    js+'/r/n'+appregister;
+    fs.writeFileSync('buildconfig.js');
+    
+    
+}
 function injectFile(template, config) {
     return template.pipe(
         inject(
@@ -237,6 +261,7 @@ function css() {
     })
 }
 function js() {
+    generateBuildConfigJS();
     if (projectConfig.webpackEntry) {
         webpack(env, projectConfig.webpackEntry, dest + '/js');
     }
