@@ -1,7 +1,6 @@
 'use strict'
 var helper = require('./helper');
 var fs = require('fs');
-var sh = require('shelljs');
 var dependencies = [
     'react',
     'react-dom',
@@ -46,11 +45,11 @@ function exec(projectName) {
     }
     fs.writeFileSync('package.json',JSON.stringify(json));
     helper.mv('node_modules/spencer-kit-project-templates/templates/react_mix_project', './');
-    helper.replace('projects/helloworld.js','hello world',projectName);  
+    helper.replace('projects/helloworld.js',/hello world/g,projectName);  
     helper.rename('projects/helloworld.js','projects/'+projectName+'.js');
     helper.rename('scss/helloworld','scss/'+projectName);
-    sh.exec('npm i ' + dependencies.join(' ') + ' -S');
-    sh.exec('npm i ' + devDependencies.join(' ') + ' -D');
+    helper.exec('npm i ' + dependencies.join(' ') + ' -S');
+    helper.exec('npm i ' + devDependencies.join(' ') + ' -D');
 }
 
 module.exports = exec;

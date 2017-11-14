@@ -1,0 +1,7 @@
+node_modules/
+release/
+.sass-cache/
+npm-debug.log
+npm-debug.log.**
+.vscode/
+.idea/

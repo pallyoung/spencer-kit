@@ -92,7 +92,6 @@ function createProject(name, template) {
         }
     };
     fs.writeFileSync(path.join(root, 'package.json'), JSON.stringify(packageJson));
-    fs.writeFileSync(path.join(root, 'README.md'), '# ' + projectName);
     process.chdir(root);
 
     run(root, projectName, template);
@@ -128,7 +127,7 @@ function run(root, projectName, template) {
         case TARGETS.rn:
             break;
     }
-    installDependencies(['spencer-kit-project-templates@./../templates']);
+    installDependencies(['spencer-kit-project-templates@./../templates'],true);
     sh.exec('node ./node_modules/.bin/skitlocal -p ' + projectName + ' -t ' + template);
 }
 start(options);

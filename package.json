@@ -5,7 +5,12 @@
   "main": "index.js",
   "scripts": {
     "clean":"node templates/commands/helper.js rm demo",
-    "reactMix": "node index.js init demo -t react-mix-project"
+    "reactMix": "node index.js init demo -t react-mix-project",
+    "reactMulti":"node index.js init demo -t react-multipage-project",
+    "reactSPA":"node index.js init demo -t react-spa-project",
+    "reactPackage":"node index.js init demo -t react-package",
+    "npmPackage":"node index.js init demo -t npm-package",
+    "react-native":"node index.js init demo -t react-native"
   },
   "repository": {
     "type": "git",
