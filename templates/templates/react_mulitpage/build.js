@@ -20,19 +20,21 @@ var proxy = require('http-proxy-middleware');
 var options = minimist(process.argv.slice(2));
 require('./AppRegister.prerender');
 
-options.dest = options.dest || 'release';// release dir
-options.env = options.env || 'dev';//environment,dafault is dev
+var dest = options.dest || 'release';// release dir
+var env = options.env || 'dev';//environment,dafault is dev
 
+var config = require('buildConfig/BuildConfig');
+var envConfig = require('buildConfig/BuildConfig.'+env);
 
-var targetConfig = require('./projects/' + options.project);
+var projectConfig = require('project.js');
 
-if (typeof targetConfig == 'function') {
-    targetConfig = targetConfig(options.env);
+if (typeof projectConfig == 'function') {
+    projectConfig = projectConfig(env);
 }
 
 
 var serverConfig = {
-    root: options.dest,// server root
+    root: dest,// server root
     port: 8080,//server port 
     livereload: false,
     /**
@@ -59,7 +61,6 @@ function TaskDelayer() {
     }
 }
 function mkdir() {
-    var dest = options.dest;
     if (fs.existsSync(dest)) {
         sh.rm('-rf', dest);
     }
@@ -75,15 +76,9 @@ function getTemplate(path) {
     }
 }
 function html() {
-    var {
-        env, target, dest
-    } = options;
-    HTMLgenerate(targetConfig.pages);
+    HTMLgenerate(projectConfig.pages);
 }
 function HTMLgenerate(pages) {
-    var {
-        env, target, dest
-    } = options;
     pages.forEach(function (config) {
         var template = getTemplate(config.template);
         var injectFiles = [
@@ -138,7 +133,6 @@ function HTMLgenerate(pages) {
     });
 }
 function asset() {
-    var dest = options.dest;
     var assets = fs.readdirSync('asset');
     gulp.src(['asset/**'])
         .pipe(gulp.dest(dest));
@@ -168,31 +162,31 @@ function webpack(env, entry, output) {
 function hashmifify() {
     return Promise.resolve();
     var readyList = [];
-    if (options.env == 'dev') {
+    if (env == 'dev') {
         return Promise.resolve();
     }
     return new Promise(function (resolve) {
         function checkReady() {
             readyList.push(true);
             if (readyList.length == 2) {
-                sh.rm('-fr',[options.dest + '/js1',options.dest + '/css1']);
+                sh.rm('-fr',[dest + '/js1',dest + '/css1']);
                 resolve();
 
             }
         }
-        sh.mv('-f',options.dest + '/js',options.dest + '/js1');
-        sh.mv('-f',options.dest + '/css',options.dest + '/css1');
+        sh.mv('-f',dest + '/js',dest + '/js1');
+        sh.mv('-f',dest + '/css',dest + '/css1');
         process.nextTick(function () {
-            gulp.src([options.dest + '/css1/**']).
+            gulp.src([dest + '/css1/**']).
                 pipe(minifyCss()).
                 pipe(hash()).
-                pipe(gulp.dest(options.dest + '/css'))
+                pipe(gulp.dest(dest + '/css'))
                 .addListener('end', checkReady);
 
-            gulp.src([options.dest + '/js1/**']).
+            gulp.src([dest + '/js1/**']).
                 pipe(uglify()).
                 pipe(hash()).
-                pipe(gulp.dest(options.dest + '/js')).
+                pipe(gulp.dest(dest + '/js')).
                 addListener('end', checkReady);
         })
 
@@ -226,17 +220,14 @@ function injectFile(template, config) {
     return template.pipe(
         inject(
             gulp.src(config.files),
-            { relative: false, name: config.name, ignorePath: options.dest }
+            { relative: false, name: config.name, ignorePath:dest }
         ));
 }
 function css() {
-    if(!targetConfig.compass){
+    if(!projectConfig.compass){
         return Promise.resolve();
     }
-    var {
-        env, target, dest
-    } = options;
-    sh.exec('compass compile --sass-dir scss/' + targetConfig.scssDIR + ' --force');
+    sh.exec('compass compile --sass-dir ' + projectConfig.scssDIR + ' --force');
     return new Promise(function (resolve) {
         process.nextTick(function(){
             sh.rm('-fr', dest + '/css');
@@ -246,13 +237,10 @@ function css() {
     })
 }
 function js() {
-    var {
-        env, target, dest
-    } = options;
-    if (targetConfig.webpackEntry) {
-        webpack(env, targetConfig.webpackEntry, dest + '/js');
+    if (projectConfig.webpackEntry) {
+        webpack(env, projectConfig.webpackEntry, dest + '/js');
     }
-    return concatJS(targetConfig.commonJS, dest + '/js');
+    return concatJS(projectConfig.commonJS, dest + '/js');
 
 }
 function clear() {
@@ -278,7 +266,7 @@ function server() {
                 })
             }, 'asset')
         })
-        gulp.watch(['scss/' + options.target + '/**'], function () {
+        gulp.watch([ projectConfig.scssDIR + '/**'], function () {
             delayer.delay(function () {
                 css().then(function () {
                     connect.reload();

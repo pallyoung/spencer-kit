@@ -48,6 +48,7 @@ function exec(projectName) {
     helper.replace('projects/helloworld.js',/hello world/g,projectName);  
     helper.rename('projects/helloworld.js','projects/'+projectName+'.js');
     helper.rename('scss/helloworld','scss/'+projectName);
+    helper.replace('scss/helloworld','scss/'+projectName);
     helper.exec('npm i ' + dependencies.join(' ') + ' -S');
     helper.exec('npm i ' + devDependencies.join(' ') + ' -D');
 }

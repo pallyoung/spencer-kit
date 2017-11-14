@@ -33,7 +33,7 @@ module.exports = function (env) {
         /*
         * if compass is true,it will use this dir as its compile dir
         */
-        scssDIR:'hello world',
+        scssDIR:'scss/helloworld',
         /**
          * all the js will use gulp-concat to join.
          */
@@ -58,7 +58,7 @@ module.exports = function (env) {
          */
         pages: [
             {
-                title: 'hello world',
+                title: 'helloworld',
                 template: 'template.html',
                 output: 'index.html',
                 js: ['shim.js','react.js','index.js'],
