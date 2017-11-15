@@ -8,7 +8,7 @@ var babelOptions = {
 }
 function start(){    
     var src = options.src;
-    var dist = options.dist;      
+    var dist = options.dist;
     transform(src,dist);
 }
 function transform(src,dist){

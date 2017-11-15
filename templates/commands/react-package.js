@@ -23,8 +23,8 @@ function exec(projectName) {
     helper.mkdir('dist');
     var json = JSON.parse(fs.readFileSync('package.json'));
     json.scripts = {
-        build: 'node build.js ' + projectName,
-        dev: 'node build.js ' + projectName + '--dev'
+        build: 'node build.js --src src --dist dist' ,
+        dev: 'node build.js --src src --dist dist'
     }
     json.main = 'index.js';
     fs.writeFileSync('package.json', JSON.stringify(json));
