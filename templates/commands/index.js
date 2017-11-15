@@ -2,6 +2,7 @@
 var reactMixProject = require('./react-mix-project');
 var npmPackage = require('./npm-package');
 var reactMultipage = require('./react-multipage');
+var reactPackage = require('./react-package');
 var DEFAULT_TEMPLATE = 'react-mix-project';
 function switchCommand(project,template){
     if(template===true){
@@ -14,7 +15,7 @@ function switchCommand(project,template){
             reactMultipage(project);
             break;
         case 'react-package':
-            
+            reactPackage(project);
             break;
         case 'npm-package':
             npmPackage(project);
