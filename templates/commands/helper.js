@@ -18,7 +18,7 @@ function mv(src, dest) {
         var stats = fs.statSync(file);
         var destFile = file.replace(src, dest).replace(/\/\//g, '/');
         if (stats.isDirectory()) {
-            !fs.existsSync(destFile)&&fs.mkdirSync(destFile);
+            !fs.existsSync(destFile) && fs.mkdirSync(destFile);
         } else {
             destFile = destFile.replace(/\/_\w/, function (w) {
                 return w.replace('_', '.');
@@ -60,8 +60,15 @@ function exec(cmd) {
         process.stderr.write(data);
     });
 }
-function mkdir(path){
+function mkdir(path) {
     fs.mkdirSync(path);
+}
+function upperCaseName(name) {
+    return name.replace(/-\w/g, function (c) {
+        return c[1].toUpperCase();
+    }).replace(/^\w/, function (c) {
+        return c.toUpperCase();
+    });
 }
 var exports = {
     mv,
@@ -69,7 +76,8 @@ var exports = {
     rm,
     replace,
     exec,
-    mkdir
+    mkdir,
+    upperCaseName
 }
 
 var command = process.argv.slice(2);
