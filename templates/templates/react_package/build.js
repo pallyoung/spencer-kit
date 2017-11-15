@@ -12,7 +12,6 @@ function start(){
     transform(src,dist);
 }
 function transform(src,dist){
-    console.log(src,fs.existsSync(src))
     if(fs.existsSync(src)){
         var stat = fs.statSync(src);
         if(stat.isFile()){
