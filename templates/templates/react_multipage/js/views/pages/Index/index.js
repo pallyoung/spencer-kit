@@ -6,7 +6,12 @@ class Index extends Component{
         super(...props)
     }
     render(){
-        return <div className = 'content'>hello world</div>
+        return <div className = 'content'>
+                    <p>welcome to use <a href='https://github.com/pallyoung/spencer-kit'>spencer-kit-cli</a></p>
+                    <p>get start</p>
+                    <p>project name {BuildConfig.projectcd}</p>
+                    <p>build env {BuildConfig.env}</p>
+                </div>
     }
 }
 AppRegister.register(<Index />);

@@ -40,16 +40,18 @@ var devDependencies = [
 function exec(projectName) {
     var json = JSON.parse(fs.readFileSync('package.json'));
     json.scripts = {
-        start:'node build.js --env dev --dest release',
-        ft:'node build.js --env ft --dest release',
-        uat:'node build.js --env uat --dest release',
-        release:'node build.js --env release --dest release',
+        start:'node build.js --env dev --dist dist --entry project.js',
+        ft:'node build.js --env ft --dist dist --entry project.js',
+        uat:'node build.js --env uat --dist dist --entry project.js',
+        release:'node build.js --env release --dist dist --entry project.js',
     }
     fs.writeFileSync('package.json',JSON.stringify(json));
+    helper.mkdir('buildConfig');
     helper.mv('node_modules/spencer-kit-project-templates/templates/react_multipage', './');
-    helper.mv('node_modules/spencer-kit-project-templates/common/buildConfig','./');
-    helper.mv('node_modules/spencer-kit-project-templates/common/AppRegister.js','./');
-    helper.mv('node_modules/spencer-kit-project-templates/common/AppRegister.prerender.js','./');
+    helper.mv('node_modules/spencer-kit-project-templates/common/buildConfig','./buildConfig');
+    helper.mv('node_modules/spencer-kit-project-templates/common/AppRegister.js','./AppRegister.js');
+    helper.mv('node_modules/spencer-kit-project-templates/common/AppRegister.prerender.js','./AppRegister.prerender.js');
+    helper.replace('buildConfig/BuildConfig.js',/helloworld/g,projectName);  
     helper.replace('project.js',/helloworld/g,projectName);  
     helper.exec('npm i ' + dependencies.join(' ') + ' -S');
     helper.exec('npm i ' + devDependencies.join(' ') + ' -D');

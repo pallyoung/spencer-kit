@@ -40,8 +40,8 @@ var devDependencies = [
 function exec(projectName) {
     var json = JSON.parse(fs.readFileSync('package.json'));
     json.scripts = {
-        start:'node build.js --env dev --dest release --project '+ projectName,
-        release:'node build.js --env production --dest release --project '+ projectName,
+        start:'node build.js --env dev --dist dist --entry ./projects/'+ projectName,
+        release:'node build.js --env production --dist dist --entry ./projects/'+ projectName,
     }
     fs.writeFileSync('package.json',JSON.stringify(json));
     helper.mv('node_modules/spencer-kit-project-templates/templates/react_mix_project', './');

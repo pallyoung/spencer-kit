@@ -4,7 +4,7 @@ module.exports = {
         'npmpackage': './index.js',
     },
     output: {
-        path: path.resolve('./release'),
+        path: path.resolve('./dist'),
         filename: '[name].js',
         library: 'npmpackage',
         libraryTarget: 'umd',

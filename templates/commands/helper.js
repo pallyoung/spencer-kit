@@ -15,18 +15,16 @@ function rf(src, callback) {
 }
 function mv(src, dest) {
     rf(src, function (file) {
-        if (file !== src) {
-            var stats = fs.statSync(file);
-            var destFile = file.replace(src, dest).replace(/\/\//g, '/');
-            if (stats.isDirectory()) {
-                fs.mkdirSync(destFile);
-            } else {
-                destFile = destFile.replace(/\/_\w/, function (w) {
-                    return w.replace('_', '.');
-                })
-                fs.writeFileSync(destFile, fs.readFileSync(file));
-                // fs.createReadStream(file).pipe(fs.createWriteStream(destFile));
-            }
+        var stats = fs.statSync(file);
+        var destFile = file.replace(src, dest).replace(/\/\//g, '/');
+        if (stats.isDirectory()) {
+            !fs.existsSync(destFile)&&fs.mkdirSync(destFile);
+        } else {
+            destFile = destFile.replace(/\/_\w/, function (w) {
+                return w.replace('_', '.');
+            })
+            fs.writeFileSync(destFile, fs.readFileSync(file));
+            // fs.createReadStream(file).pipe(fs.createWriteStream(destFile));
         }
     })
 }

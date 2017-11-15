@@ -3,7 +3,7 @@ var fs = require('fs');
 var sh = require('shelljs');
 var rename = require('gulp-rename');
 var url = require('url')
-
+var path = require('path');
 var gulp = require('gulp');
 var replace = require('gulp-replace');
 var hash = require('gulp-hash');
@@ -19,20 +19,21 @@ var proxy = require('http-proxy-middleware');
 
 var options = minimist(process.argv.slice(2));
 
-var dest = options.dest || 'release';// release dir
-var env = options.env || 'dev';//environment,dafault is dev
+var DIST = options.dist || 'dist';// dist dir
+var ENV = options.env || 'dev';//environment,dafault is dev
 
 
+var ENTRY = path.resolve(options.entry||'./project.js');//build entry file
 
-var projectConfig = require('project.js');
+var projectConfig = require(ENTRY);
 
 if (typeof projectConfig == 'function') {
-    projectConfig = projectConfig(env);
+    projectConfig = projectConfig(ENV);
 }
 
 
 var serverConfig = {
-    root: dest,// server root
+    root: DIST,// server root
     port: 8080,//server port 
     livereload: false,
     /**
@@ -71,10 +72,10 @@ function TaskDelayer() {
     }
 }
 function mkdir() {
-    if (fs.existsSync(dest)) {
-        sh.rm('-rf', dest);
+    if (fs.existsSync(DIST)) {
+        sh.rm('-rf', DIST);
     }
-    fs.mkdir(dest);
+    fs.mkdir(DIST);
 }
 
 function getTemplate(path) {
@@ -100,7 +101,7 @@ function HTMLgenerate(pages) {
             injectFiles.push({
                 name: 'js',
                 files: config.js.map(function (name) {
-                    return dest + '/js/' + name.replace('\.', '*\.');
+                    return DIST + '/js/' + name.replace('\.', '*\.');
                 })
             })
         }
@@ -108,17 +109,17 @@ function HTMLgenerate(pages) {
             injectFiles.push({
                 name: 'css',
                 files: config.css.map(function (name) {
-                    return dest + '/css/' + name.replace('\.', '*\.');
+                    return DIST + '/css/' + name.replace('\.', '*\.');
                 })
             })
         }
         
         if (template) {
-            template = HTMLComplie(config, template, dest);
+            template = HTMLComplie(config, template, DIST);
             injectFiles.forEach(function (config) {
                 template = injectFile(template, config);
             });
-            if(config.prerender&&env!=='dev'){
+            if(config.prerender&&ENV!=='dev'){
                 require('./AppRegister.prerender');                
                 var files = [];
                 injectFiles[0].files.forEach(function(v){
@@ -128,17 +129,17 @@ function HTMLgenerate(pages) {
                 })
                 gulp.src(files).pipe(
                     concat(config.output+'.js')
-                ).pipe(gulp.dest(dest)).addListener('end',function(){
+                ).pipe(gulp.dest(DIST)).addListener('end',function(){
                     AppRegister.setTag(config.output);                    
-                    require('./'+dest+'/'+config.output);
-                    sh.rm(dest+'/'+config.output+'.js');
+                    require('./'+DIST+'/'+config.output);
+                    sh.rm(DIST+'/'+config.output+'.js');
                     var html = AppRegister.getTag(config.output);
                     template.pipe(
                         replace('html_placeholder\'>','html_placeholder\'>'+html)
-                    ).pipe(gulp.dest(dest));
+                    ).pipe(gulp.dest(DIST));
                 });
             }else{
-                template.pipe(gulp.dest(dest));
+                template.pipe(gulp.dest(DIST));
             }      
         }
     });
@@ -146,9 +147,9 @@ function HTMLgenerate(pages) {
 function asset() {
     var assets = fs.readdirSync('asset');
     gulp.src(['asset/**'])
-        .pipe(gulp.dest(dest));
+        .pipe(gulp.dest(DIST));
 }
-function HTMLComplie(config, template, dest) {
+function HTMLComplie(config, template) {
     return template.pipe(replace(
         /<%=[^%>]+%>/g,
         function (matcher) {
@@ -173,31 +174,31 @@ function webpack(env, entry, output) {
 function hashmifify() {
     return Promise.resolve();
     var readyList = [];
-    if (env == 'dev') {
+    if (ENV == 'dev') {
         return Promise.resolve();
     }
     return new Promise(function (resolve) {
         function checkReady() {
             readyList.push(true);
             if (readyList.length == 2) {
-                sh.rm('-fr',[dest + '/js1',dest + '/css1']);
+                sh.rm('-fr',[DIST + '/js1',DIST + '/css1']);
                 resolve();
 
             }
         }
-        sh.mv('-f',dest + '/js',dest + '/js1');
-        sh.mv('-f',dest + '/css',dest + '/css1');
+        sh.mv('-f',DIST + '/js',DIST + '/js1');
+        sh.mv('-f',DIST + '/css',DIST + '/css1');
         process.nextTick(function () {
-            gulp.src([dest + '/css1/**']).
+            gulp.src([DIST + '/css1/**']).
                 pipe(minifyCss()).
                 pipe(hash()).
-                pipe(gulp.dest(dest + '/css'))
+                pipe(gulp.dest(DIST + '/css'))
                 .addListener('end', checkReady);
 
-            gulp.src([dest + '/js1/**']).
+            gulp.src([DIST + '/js1/**']).
                 pipe(uglify()).
                 pipe(hash()).
-                pipe(gulp.dest(dest + '/js')).
+                pipe(gulp.dest(DIST + '/js')).
                 addListener('end', checkReady);
         })
 
@@ -205,7 +206,7 @@ function hashmifify() {
 
 }
 
-function concatJS(list, dest) {
+function concatJS(list, DIST) {
     list = list || {};
     return new Promise(function (resolve, reject) {
         var readyList = [];
@@ -219,7 +220,7 @@ function concatJS(list, dest) {
         for (var js in list) {
             gulp.src(list[js]).
                 pipe(concat(js + '.js')).
-                pipe(gulp.dest(dest))
+                pipe(gulp.dest(DIST))
                 .addListener('end', checkReady);
             taskList.push(true)
         }
@@ -229,14 +230,14 @@ function concatJS(list, dest) {
 
 
 //buile config
-function generateBuildConfigJS(){
-    var buildConfig = require('buildConfig/BuildConfig');
-    var envBuildConfig = require('buildConfig/BuildConfig.'+env);
+function generateBuildConfigJS(dir){
+    var buildConfig = require('./buildConfig/BuildConfig');
+    var envBuildConfig = require('./buildConfig/BuildConfig.'+ENV);
     buildConfig = meger(envBuildConfig,buildConfig);
     var js = '(function(){window.BuildConfig='+JSON.stringify(buildConfig)+'}());';
     var appregister = fs.readFileSync('AppRegister.js');
-    js+'/r/n'+appregister;
-    fs.writeFileSync('buildconfig.js');
+    js =  js+'\r\n'+appregister;
+    fs.writeFileSync(path.join(dir,'buildconfig.js'),js);
     
     
 }
@@ -244,7 +245,7 @@ function injectFile(template, config) {
     return template.pipe(
         inject(
             gulp.src(config.files),
-            { relative: false, name: config.name, ignorePath:dest }
+            { relative: false, name: config.name, ignorePath:DIST }
         ));
 }
 function css() {
@@ -254,18 +255,22 @@ function css() {
     sh.exec('compass compile --sass-dir ' + projectConfig.scssDIR + ' --force');
     return new Promise(function (resolve) {
         process.nextTick(function(){
-            sh.rm('-fr', dest + '/css');
-            sh.mv('-f','css', dest + '/css');
+            sh.rm('-fr', DIST + '/css');
+            sh.mv('-f','css', DIST + '/css');
             process.nextTick(resolve);
         });
     })
 }
 function js() {
-    generateBuildConfigJS();
-    if (projectConfig.webpackEntry) {
-        webpack(env, projectConfig.webpackEntry, dest + '/js');
+    var jsDIR = path.join(DIST,'js');
+    if(!fs.existsSync(jsDIR)){
+        fs.mkdirSync(jsDIR)
     }
-    return concatJS(projectConfig.commonJS, dest + '/js');
+    generateBuildConfigJS(jsDIR);
+    if (projectConfig.webpackEntry) {
+        webpack(ENV, projectConfig.webpackEntry,jsDIR);
+    }
+    return concatJS(projectConfig.commonJS, jsDIR);
 
 }
 function clear() {
@@ -280,7 +285,7 @@ function start() {
 
 start();
 function server() {
-    if (options.env == 'dev') {
+    if (ENV == 'dev') {
         connect.server(serverConfig);
         var delayer = new TaskDelayer();
         gulp.watch(['asset/**'], function () {

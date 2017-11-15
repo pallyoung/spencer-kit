@@ -22,7 +22,7 @@ module.exports = function (env) {
         'node_modules/es5-shim/es5-sham.js',
         'node_modules/es6-shim/es6-shim.js',
         'node_modules/es6-shim/es6-sham.js',
-        'node_modules/es7-shim/es7-shim.js',
+        'node_modules/es7-shim/dist/es7-shim.js',
     ];
     return {
         /*

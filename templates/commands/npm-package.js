@@ -14,7 +14,7 @@ var devDependencies = [
 
 function exec(projectName) {
     helper.mkdir('demo');
-    helper.mkdir('release');
+    helper.mkdir('dist');
     var json = JSON.parse(fs.readFileSync('package.json'));
     json.scripts = {
         build:'node build.js '+projectName
