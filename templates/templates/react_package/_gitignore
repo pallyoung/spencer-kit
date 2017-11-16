@@ -1,3 +1,5 @@
 node_modules/
 npm-debug.log
 demo/index.bundle.js
+demo/react.js
+demo/react-dom.js
