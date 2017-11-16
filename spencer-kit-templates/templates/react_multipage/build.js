@@ -251,7 +251,7 @@ function css() {
     if(!projectConfig.compass){
         return Promise.resolve();
     }
-    sh.exec('compass compile --sass-dir ' + projectConfig.scssDIR + ' --force');
+    sh.exec('compass compile --sass-dir ' + path.resolve(projectConfig.scssDIR) + ' --force');
     return new Promise(function (resolve) {
         process.nextTick(function(){
             sh.rm('-fr', DIST + '/css');

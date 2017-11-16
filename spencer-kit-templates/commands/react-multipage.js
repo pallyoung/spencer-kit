@@ -49,6 +49,7 @@ function exec(projectName) {
     helper.mv('node_modules/spencer-kit-project-templates/templates/react_multipage', './');
     helper.replace('buildConfig/BuildConfig.js',/helloworld/g,projectName);  
     helper.replace('project.js',/helloworld/g,projectName);  
+    helper.replace('README.md',/helloworld/g,projectName);
     helper.exec('npm i ' + dependencies.join(' ') + ' -S');
     helper.exec('npm i ' + devDependencies.join(' ') + ' -D');
 }

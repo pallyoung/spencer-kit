@@ -16,11 +16,11 @@ function rf(src, callback) {
 function mv(src, dest) {
     rf(src, function (file) {
         var stats = fs.statSync(file);
-        var destFile = file.replace(src, dest).replace(/\/\//g, '/');
+        var destFile = path.join(dest,path.relative(src,file));
         if (stats.isDirectory()) {
             !fs.existsSync(destFile) && fs.mkdirSync(destFile);
         } else {
-            destFile = destFile.replace(/\/_\w/, function (w) {
+            destFile = destFile.replace(/\b_\w/, function (w) {
                 return w.replace('_', '.');
             })
             fs.writeFileSync(destFile, fs.readFileSync(file));

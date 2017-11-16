@@ -125,6 +125,6 @@ function run(root, projectName, template) {
     var devDependencies = [];
     var npmIgnore = [];
     installDependencies(['spencer-kit-project-templates'],true);
-    sh.exec('./node_modules/.bin/skitlocal -p ' + projectName + ' -t ' + template);
+    sh.exec(path.resolve('./','node_modules/.bin/skitlocal')+' -p ' + projectName + ' -t ' + template);
 }
 start(options);
