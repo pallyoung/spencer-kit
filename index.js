@@ -25,7 +25,7 @@ function start(options) {
             '  Options:',
             '',
             '    -h, --help    output usage information',
-            '    -t,--template use an app template. Use --template to see available templates.',
+            '    -t,--template use an app template.',
             '',
         ].join('\n'));
         process.exit(0);
@@ -123,11 +123,7 @@ function run(root, projectName, template) {
     var dependencies = [];
     var devDependencies = [];
     var npmIgnore = [];
-    switch (template) {
-        case TARGETS.rn:
-            break;
-    }
-    installDependencies(['spencer-kit-project-templates@./../templates'],true);
+    installDependencies(['spencer-kit-project-templates'],true);
     sh.exec('node ./node_modules/.bin/skitlocal -p ' + projectName + ' -t ' + template);
 }
 start(options);
