@@ -8,8 +8,8 @@ class Index extends Component{
     render(){
         return <div className = 'content'>
                     <p>welcome to use <a href='https://github.com/pallyoung/spencer-kit'>spencer-kit-cli</a></p>
-                    <p>get start</p>
-                    <p>project name {BuildConfig.projectcd}</p>
+                    <p>get start to edit index.js</p>
+                    <p>project name {BuildConfig.project}</p>
                     <p>build env {BuildConfig.env}</p>
                 </div>
     }

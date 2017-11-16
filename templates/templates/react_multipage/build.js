@@ -231,7 +231,7 @@ function concatJS(list, DIST) {
 //buile config
 function generateBuildConfigJS(dir){
     var buildConfig = projectConfig.buildConfig&&projectConfig.buildConfig.defaultConfigs||{};
-    var envBuildConfig = projectConfig.buildConfig&&projectConfig.buildConfig[env];
+    var envBuildConfig = projectConfig.buildConfig&&projectConfig.buildConfig[ENV];
     buildConfig = meger(envBuildConfig,buildConfig);
     var js = '(function(){window.BuildConfig='+JSON.stringify(buildConfig)+'}());';
     var appregister = fs.readFileSync('AppRegister.js');
