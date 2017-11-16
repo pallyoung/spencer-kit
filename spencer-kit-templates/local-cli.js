@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var minimist = require('minimist');
 var commands = require('./commands');
 

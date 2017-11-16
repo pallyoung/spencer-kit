@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 'use strict'
 var chalk = require('chalk');
 var sh = require('shelljs');
@@ -124,6 +125,6 @@ function run(root, projectName, template) {
     var devDependencies = [];
     var npmIgnore = [];
     installDependencies(['spencer-kit-project-templates'],true);
-    sh.exec('node ./node_modules/.bin/skitlocal -p ' + projectName + ' -t ' + template);
+    sh.exec('./node_modules/.bin/skitlocal -p ' + projectName + ' -t ' + template);
 }
 start(options);
