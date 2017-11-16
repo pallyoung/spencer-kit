@@ -43,7 +43,7 @@ function exec(projectName) {
         start:'node build.js --env dev --dist dist --entry project.js',
         ft:'node build.js --env ft --dist dist --entry project.js',
         uat:'node build.js --env uat --dist dist --entry project.js',
-        release:'node build.js --env release --dist dist --entry project.js',
+        release:'node build.js --env prod --dist dist --entry project.js',
     }
     fs.writeFileSync('package.json',JSON.stringify(json));
     helper.mkdir('buildConfig');

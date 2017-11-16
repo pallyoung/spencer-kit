@@ -47,6 +47,33 @@ module.exports = function (env) {
              */
             shim:shimjsPaths
         },
+        /**
+         * project build config 
+         * you can add other property or other release env
+         */
+        buildConfig:{
+            /**
+             * default build config 
+             */
+            defaultConfigs:{
+                project:'helloworld'
+            },
+            /**
+             * different release type will use different config
+             */
+            dev:{
+                env:'dev'
+            },
+            ft:{
+                env:'ft'
+            },
+            uat:{
+                env:'uat'
+            },
+            prod:{
+                env:'prod'
+            }
+        },
          /**
          * use webpack to package js
          */
