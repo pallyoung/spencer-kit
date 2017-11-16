@@ -11,7 +11,7 @@ class Index extends Component{
                     <p>welcome to use <a href='https://github.com/pallyoung/spencer-kit'>spencer-kit-cli</a></p>
                     <p>get start to edit index.js</p>
                     <p>project name {BuildConfig.project}</p>
-                    <p>build env {BuildConfig.env}</p>
+                    <p>current env {BuildConfig.env}</p>
                 </div>
     }
 }
