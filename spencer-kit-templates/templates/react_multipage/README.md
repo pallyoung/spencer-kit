@@ -2,9 +2,20 @@
 
 helloworld
 
+* [build](#build)
 * [environment](#environment)
-* [usage](#usage)
+* [proxy](#proxy)
 * [directory](#directory)
+
+## Build
+when the project inited,4 build environment has been prepared for you.
+and you can also configure the build enviroment youself.
+
+```
+node build.js --env dev --dist dist --entry project.js
+```
+you can use --env to set the environment variable,and --dist to set the release dir.
+--entry to set the project config file.
 
 ## Environment
 this project is inited with 4 env,dev、ft、uat and prod.
@@ -35,6 +46,9 @@ this environment is released for product.
 ```
 npm run release
 ```
+
+## proxy
+
 ## Directory
 
 ```
