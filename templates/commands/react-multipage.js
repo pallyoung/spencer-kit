@@ -48,9 +48,6 @@ function exec(projectName) {
     fs.writeFileSync('package.json',JSON.stringify(json));
     helper.mkdir('buildConfig');
     helper.mv('node_modules/spencer-kit-project-templates/templates/react_multipage', './');
-    helper.mv('node_modules/spencer-kit-project-templates/common/buildConfig','./buildConfig');
-    helper.mv('node_modules/spencer-kit-project-templates/common/AppRegister.js','./AppRegister.js');
-    helper.mv('node_modules/spencer-kit-project-templates/common/AppRegister.prerender.js','./AppRegister.prerender.js');
     helper.replace('buildConfig/BuildConfig.js',/helloworld/g,projectName);  
     helper.replace('project.js',/helloworld/g,projectName);  
     helper.exec('npm i ' + dependencies.join(' ') + ' -S');
