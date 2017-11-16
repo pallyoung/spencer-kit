@@ -15,7 +15,7 @@ var devDependencies = [
     'babel-core',
     'babel-loader',
     'babel-polyfill',
-    'babel-preset-es2015',
+    'babel-preset-env',
     'babel-preset-react',
     'babel-preset-stage-3',
     'css-loader',

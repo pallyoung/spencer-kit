@@ -4,7 +4,7 @@ var fs = require('fs');
 var minimist = require('minimist');
 var options = minimist(process.argv.slice(2));
 var babelOptions = {
-    presets:['react','es2015','stage-3']
+    presets:['react','env','stage-3']
 }
 function start(){    
     var src = options.src;

@@ -5,10 +5,13 @@ var sh = require('shelljs');
 var dependencies = [
 ];
 var devDependencies = [
+    'webpack',
+    'babel-loader',
+    'webpack-dev-server',
     'react',
     'react-dom',
     'babel-core',
-    'babel-preset-es2015',
+    'babel-preset-env',
     'babel-preset-react',
     'babel-preset-stage-3',
     'gulp',
@@ -19,14 +22,15 @@ var devDependencies = [
 
 function exec(projectName) {
     var upperCaseName = helper.upperCaseName(projectName);
-    helper.mkdir('demo');
     helper.mkdir('dist');
     var json = JSON.parse(fs.readFileSync('package.json'));
     json.scripts = {
         build: 'node build.js --src src --dist dist' ,
-        dev: 'node build.js --src src --dist dist'
+        start: 'npm run build && node_modules/.bin/webpack-dev-server'
     }
     json.main = 'index.js';
+    json.module = 'src/index.js';
+    
     fs.writeFileSync('package.json', JSON.stringify(json));
     fs.writeFileSync('README.md', '# ' + projectName);
     helper.mv('node_modules/spencer-kit-project-templates/templates/npm_package', './');
