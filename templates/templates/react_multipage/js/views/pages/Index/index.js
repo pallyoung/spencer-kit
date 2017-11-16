@@ -1,6 +1,6 @@
 'use strict'
 import React,{Component}from 'react';
-
+import BuildConfig from 'build-config';
 class Index extends Component{
     constructor(...props){
         super(...props)

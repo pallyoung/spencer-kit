@@ -39,7 +39,8 @@ var defaultConfig = {
     ],
     externals: {
         'react': 'React',
-        'react-dom': 'ReactDOM'
+        'react-dom': 'ReactDOM',
+        'build-config':'BuildConfig'
     }
 }
 
