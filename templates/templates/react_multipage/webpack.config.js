@@ -40,7 +40,8 @@ var defaultConfig = {
     externals: {
         'react': 'React',
         'react-dom': 'ReactDOM',
-        'build-config':'BuildConfig'
+        'build-config':'BuildConfig',
+        'app-register':'AppRegister'
     }
 }
 

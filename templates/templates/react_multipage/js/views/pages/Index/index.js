@@ -1,6 +1,7 @@
 'use strict'
 import React,{Component}from 'react';
 import BuildConfig from 'build-config';
+import AppRegister from 'app-register'
 class Index extends Component{
     constructor(...props){
         super(...props)
