@@ -46,7 +46,6 @@ function exec(projectName) {
         release:'node build.js --env prod --dist dist --entry project.js',
     }
     fs.writeFileSync('package.json',JSON.stringify(json));
-    helper.mkdir('buildConfig');
     helper.mv('node_modules/spencer-kit-project-templates/templates/react_multipage', './');
     helper.replace('buildConfig/BuildConfig.js',/helloworld/g,projectName);  
     helper.replace('project.js',/helloworld/g,projectName);  
