@@ -59,7 +59,7 @@ module.exports = function (env) {
         pages: [
             {
                 title: 'helloworld',
-                template: 'template.html',
+                template: 'templates/template.html',
                 output: 'index.html',
                 js: ['shim.js','react.js','index.js'],
                 css: ['index.css'],

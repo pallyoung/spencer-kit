@@ -79,7 +79,6 @@ function mkdir() {
 }
 
 function getTemplate(path) {
-    path = 'templates/' + path;
     if (fs.existsSync(path)) {
         return gulp.src(path);
     } else {
