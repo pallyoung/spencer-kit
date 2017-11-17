@@ -35,6 +35,11 @@ module.exports = function (env) {
         */
         scssDIR:'scss',
         /**
+         * asset dir ,all file in asset dir will be move to dist dir
+         * you can put fonts、images and other static file to the asset dir
+         */
+        assetDIR:'asset',
+        /**
          * all the js will use gulp-concat to join.
          */
         commonJS: {

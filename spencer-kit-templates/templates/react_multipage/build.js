@@ -144,8 +144,7 @@ function HTMLgenerate(pages) {
     });
 }
 function asset() {
-    var assets = fs.readdirSync('asset');
-    gulp.src(['asset/**'])
+    gulp.src([projectConfig.assetDIR+'/**'])
         .pipe(gulp.dest(DIST));
 }
 function HTMLComplie(config, template) {
