@@ -150,11 +150,12 @@ function asset() {
 }
 function HTMLComplie(config, template) {
     return template.pipe(replace(
-        /<%=[^%>]+%>/g,
+        /<%=[\s\S]*?(?:%>)/g,
         function (matcher) {
             matcher = matcher.replace(/(<%=\s*|\s*%>)/g, '');
             if (matcher != '') {
-                return new Function('config', 'return config.' + matcher+'||\'\'')(config);
+                return new Function('config', 
+                                        'return '+ String(matcher))(config);
             } else {
                 return matcher;
             }
