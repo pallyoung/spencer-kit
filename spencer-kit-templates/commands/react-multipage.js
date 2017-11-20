@@ -50,10 +50,8 @@ function exec(projectName) {
     helper.replace('buildConfig/BuildConfig.js',/helloworld/g,projectName);  
     helper.replace('project.js',/helloworld/g,projectName);  
     helper.replace('README.md',/helloworld/g,projectName);
-    process.nextTick(function(){
-        helper.exec('npm i ' + dependencies.join(' ') + ' -S');
-        helper.exec('npm i ' + devDependencies.join(' ') + ' -D');
-    })
+    helper.exec('npm i ' + dependencies.join(' ') + ' -S');
+    helper.exec('npm i ' + devDependencies.join(' ') + ' -D');
 }
 
 module.exports = exec;

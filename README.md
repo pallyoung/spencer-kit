@@ -17,4 +17,4 @@ skit init awesome-project -t react-multipage-project
 ```
 
 ## templates
-[support templates](#spencer-kit-templates)
+[support templates](/spencer-kit-templates/README.md)
