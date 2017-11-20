@@ -22,7 +22,7 @@ function exec(projectName) {
     json.main = 'index.js';
     fs.writeFileSync('package.json',JSON.stringify(json));
     fs.writeFileSync('README.md','# '+projectName);
-    helper.mv('node_modules/spencer-kit-project-templates/templates/npm_package', './');
+    helper.cp('node_modules/spencer-kit-project-templates/templates/npm_package', './');
     helper.replace('webpack.config.js',/npmpackage/g,helper.upperCaseName(projectName));
     helper.exec('npm i ' + devDependencies.join(' ') + ' -D');
 }

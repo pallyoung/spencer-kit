@@ -44,7 +44,7 @@ module.exports = function (env) {
          */
         commonJS: {
             /**
-             * react js
+             * react js,usually,we don't use webpack to pack the reactjs;
              */
             react: env == 'dev' ? reactjsPaths : reactminjsPaths,
             /**

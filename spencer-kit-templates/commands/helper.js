@@ -16,10 +16,32 @@ function rf(src, callback) {
 function mv(src, dest) {
     rf(src, function (file) {
         var stats = fs.statSync(file);
-        var destFile = path.join(dest,path.relative(src,file));
+        var destFile = path.join(dest, path.relative(src, file));
         if (stats.isDirectory()) {
             !fs.existsSync(destFile) && fs.mkdirSync(destFile);
         } else {
+            if (fs.existsSync(destFile) && fs.statSync(destFile).isDirectory()) {
+                destFile = path.join(destFile, path.basename(file));
+            }
+            destFile = destFile.replace(/\b_\w/, function (w) {
+                return w.replace('_', '.');
+            })
+            fs.writeFileSync(destFile, fs.readFileSync(file));
+            // fs.createReadStream(file).pipe(fs.createWriteStream(destFile));
+        }
+    })
+    rm(src);
+}
+function cp(src, dest){
+    rf(src, function (file) {
+        var stats = fs.statSync(file);
+        var destFile = path.join(dest, path.relative(src, file));
+        if (stats.isDirectory()) {
+            !fs.existsSync(destFile) && fs.mkdirSync(destFile);
+        } else {
+            if (fs.existsSync(destFile) && fs.statSync(destFile).isDirectory()) {
+                destFile = path.join(destFile, path.basename(file));
+            }
             destFile = destFile.replace(/\b_\w/, function (w) {
                 return w.replace('_', '.');
             })
@@ -60,8 +82,16 @@ function exec(cmd) {
         process.stderr.write(data);
     });
 }
-function mkdir(path) {
-    fs.mkdirSync(path);
+function mkdir(dir) {
+    dir = path.relative('',dir);
+    var dirs = dir.split(path.sep);
+    var current = '';
+    for (let i = 0, l = dirs.length; i < l; i++) {
+        current = path.join(current, dirs[i]);
+        if (!fs.existsSync(current)) {
+            fs.mkdirSync(current);
+        }
+    }
 }
 function upperCaseName(name) {
     return name.replace(/-\w/g, function (c) {
@@ -77,6 +107,7 @@ var exports = {
     replace,
     exec,
     mkdir,
+    cp,
     upperCaseName
 }
 

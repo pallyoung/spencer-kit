@@ -26,18 +26,16 @@ function exec(projectName) {
     var json = JSON.parse(fs.readFileSync('package.json'));
     json.scripts = {
         build: 'node build.js --src src --dist dist' ,
-        start: 'npm run build --dev && node_modules/.bin/webpack-dev-server'
+        start: 'npm run build && node_modules/.bin/webpack-dev-server'
     }
     json.main = 'index.js';
     json.module = 'src/index.js';
     
     fs.writeFileSync('package.json', JSON.stringify(json));
     fs.writeFileSync('README.md', '# ' + projectName);
-    helper.mv('node_modules/spencer-kit-project-templates/templates/react_package', './');
+    helper.cp('node_modules/spencer-kit-project-templates/templates/react_package', './');
     helper.replace('demo/index.js',/HelloWorld/ig, helper.upperCaseName(projectName));
     helper.exec('npm i ' + devDependencies.join(' ') + ' -D');
-    helper.mv('node_modules/react/umd/react.development.js','demo/react.js');
-    helper.mv('node_modules/react-dom/umd/react-dom.development.js','demo/react-dom.js');
 }
 
 module.exports = exec;

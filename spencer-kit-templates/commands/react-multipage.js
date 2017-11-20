@@ -46,12 +46,14 @@ function exec(projectName) {
         release:'node build.js --env prod --dist dist --entry project.js',
     }
     fs.writeFileSync('package.json',JSON.stringify(json));
-    helper.mv('node_modules/spencer-kit-project-templates/templates/react_multipage', './');
+    helper.cp('node_modules/spencer-kit-project-templates/templates/react_multipage', './');
     helper.replace('buildConfig/BuildConfig.js',/helloworld/g,projectName);  
     helper.replace('project.js',/helloworld/g,projectName);  
     helper.replace('README.md',/helloworld/g,projectName);
-    helper.exec('npm i ' + dependencies.join(' ') + ' -S');
-    helper.exec('npm i ' + devDependencies.join(' ') + ' -D');
+    process.nextTick(function(){
+        helper.exec('npm i ' + dependencies.join(' ') + ' -S');
+        helper.exec('npm i ' + devDependencies.join(' ') + ' -D');
+    })
 }
 
 module.exports = exec;
