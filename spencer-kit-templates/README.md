@@ -1,4 +1,4 @@
-# spencer-kit-project-templates &middot; [![npm version](https://badge.fury.io/js/spencer-kit-cli.svg)](https://badge.fury.io/js/spencer-kit-cli) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+# spencer-kit-project-templates &middot; [![npm version](https://badge.fury.io/js/spencer-kit-project-templates.svg)](https://badge.fury.io/js/spencer-kit-project-templates) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 
 spencer-kit-project-templates

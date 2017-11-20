@@ -1,4 +1,4 @@
-# spencer-kit
+# spencer-kit &middot; [![npm version](https://badge.fury.io/js/spencer-kit-cli.svg)](https://badge.fury.io/js/spencer-kit-cli) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 spencer-kit is a tool let you easy to init a project.
 * [features](#features)
 * [usage](#usage)
