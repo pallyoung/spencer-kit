@@ -1,4 +1,4 @@
-# helloworld
+# helloworld &middot; [![npm version](https://badge.fury.io/js/spencer-kit-project-templates.svg)](https://badge.fury.io/js/spencer-kit-project-templates) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 helloworld
 
