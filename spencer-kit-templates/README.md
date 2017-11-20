@@ -7,7 +7,7 @@ spencer-kit-project-templates
 
 * react-multipage-project
 
-    react multipage project,you can use compass to compile your scss file.project will be inited with 4 environment(dev for development,ft for test, uat foruser acceptance test,and release for product).
+    react multipage project,you can use compass to compile your scss file.project will be inited with 4 environment(dev for development,ft for test, uat for user acceptance test,and release for product).
 * react-spa-project(coming soon)
 * react-mix-project
     
