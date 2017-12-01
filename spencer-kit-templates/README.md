@@ -17,4 +17,6 @@ spencer-kit-project-templates
 * npm-package
     
     npm package template.
-* react-native(coming soon)
+* react-native
+
+    you can init a new react-native app
