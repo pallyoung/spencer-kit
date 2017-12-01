@@ -23,16 +23,16 @@ function mv(src, dest) {
             if (fs.existsSync(destFile) && fs.statSync(destFile).isDirectory()) {
                 destFile = path.join(destFile, path.basename(file));
             }
-            destFile = destFile.replace(/\b_\w/, function (w) {
-                return w.replace('_', '.');
-            })
+            if(destFile.match(/\b_[^\/\\]+/)){
+                destFile.replace('_', '.');
+            }
             fs.writeFileSync(destFile, fs.readFileSync(file));
             // fs.createReadStream(file).pipe(fs.createWriteStream(destFile));
         }
     })
     rm(src);
 }
-function cp(src, dest){
+function cp(src, dest) {
     rf(src, function (file) {
         var stats = fs.statSync(file);
         var destFile = path.join(dest, path.relative(src, file));
@@ -42,9 +42,9 @@ function cp(src, dest){
             if (fs.existsSync(destFile) && fs.statSync(destFile).isDirectory()) {
                 destFile = path.join(destFile, path.basename(file));
             }
-            destFile = destFile.replace(/\b_\w/, function (w) {
-                return w.replace('_', '.');
-            })
+            if(destFile.match(/\b_[^\/\\]+/)){
+                destFile.replace('_', '.');
+            }
             fs.writeFileSync(destFile, fs.readFileSync(file));
             // fs.createReadStream(file).pipe(fs.createWriteStream(destFile));
         }
@@ -73,17 +73,20 @@ function replace(src, patten, value) {
         fs.writeFileSync(src, result);
     }
 }
-function exec(cmd) {
+function exec(cmd, callback) {
     var c = processExec(cmd);
     c.stdout.on('data', function (data) {
         process.stdout.write(data);
     });
+    if (callback) {
+        c.on('close', callback);
+    }
     c.stderr.on('data', function (data) {
         process.stderr.write(data);
     });
 }
 function mkdir(dir) {
-    dir = path.relative('',dir);
+    dir = path.relative('', dir);
     var dirs = dir.split(path.sep);
     var current = '';
     for (let i = 0, l = dirs.length; i < l; i++) {
