@@ -13,10 +13,13 @@ function rf(src, callback) {
         }
     }
 }
-function mv(src, dest) {
+function mv(src, dest,callback) {
     rf(src, function (file) {
         var stats = fs.statSync(file);
         var destFile = path.join(dest, path.relative(src, file));
+        if(callback){
+            destFile = callback(destFile);
+        } 
         if (stats.isDirectory()) {
             !fs.existsSync(destFile) && fs.mkdirSync(destFile);
         } else {
@@ -32,10 +35,13 @@ function mv(src, dest) {
     })
     rm(src);
 }
-function cp(src, dest) {
+function cp(src, dest,callback) {
     rf(src, function (file) {
         var stats = fs.statSync(file);
         var destFile = path.join(dest, path.relative(src, file));
+        if(callback){
+            destFile = callback(destFile);
+        }        
         if (stats.isDirectory()) {
             !fs.existsSync(destFile) && fs.mkdirSync(destFile);
         } else {
@@ -111,7 +117,8 @@ var exports = {
     exec,
     mkdir,
     cp,
-    upperCaseName
+    upperCaseName,
+    rf
 }
 
 var command = process.argv.slice(2);

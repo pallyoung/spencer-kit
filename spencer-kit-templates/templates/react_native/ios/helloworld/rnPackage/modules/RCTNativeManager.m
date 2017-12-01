@@ -20,8 +20,8 @@ RCT_EXPORT_MODULE(NativeManager);
   env = @"DEBUG";
 #elif FT
   env = @"FT";
-#elif YW
-  env = @"YW";
+#elif UAT
+  env = @"UAT";
 #else
   env = @"PROD";
 #endif

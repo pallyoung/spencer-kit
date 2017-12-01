@@ -29,7 +29,15 @@ function exec(projectName) {
     json.jest = {
         "preset": "react-native"
     };
-    helper.cp('node_modules/spencer-kit-project-templates/templates/react_native', './')
+    helper.cp('node_modules/spencer-kit-project-templates/templates/react_native', './',function(dest){
+        return dest.replace(/helloworld/g, projectName);
+    });
+    helper.rf('./', function (file) {
+        var stats = fs.statSync(file);
+        if (stats.isFile() && !file.match(/(\.png|\.jpg|\.jepg|\.gif)/)) {
+            helper.replace(file, /helloworld/g, projectName);
+        }
+    });
     helper.exec('npm i ' + dependencies.join(' ') + ' -S');
     helper.exec('npm i ' + devDependencies.join(' ') + ' -D');
 }
