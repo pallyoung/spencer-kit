@@ -2,24 +2,6 @@
 import pages from './../pages';
 import Screen from './../components/Screen';
 
-// var back = NavigationActions.back;
-
-// NavigationActions.back = function (config) {
-//     if (config && config.key.indexOf('_') === -1) {
-//         var key = config.key;
-//         var scenes = headerProps.scenes;
-//         var scene;
-//         for (var i = scenes.length - 1; i >= 0; i--) {
-//             scene = scenes[i];
-//             if (scene.route.routeName == key) {
-//                 key = scenes[i + 1].route.key;
-//                 config.key = key;
-//                 break;
-//             }
-//         }
-//     }
-//     return back.call(NavigationActions, config);
-// }
 
 var routes = {};
 
