@@ -4,7 +4,7 @@ var npmPackage = require('./npm-package');
 var reactMultipage = require('./react-multipage');
 var reactPackage = require('./react-package');
 var reactNative = require('./react-native');
-var reactWithNavigation = require('./react-with-navigation');
+var reactSPA = require('./react-spa');
 var DEFAULT_TEMPLATE = 'react-mix-project';
 function switchCommand(project,template){
     if(template===true){
@@ -16,8 +16,8 @@ function switchCommand(project,template){
         case 'react-multipage-project':
             reactMultipage(project);
             break;
-        case 'react-with-navigation':
-            reactWithNavigation(project);
+        case 'react-spa-project':
+            reactSPA(project);
             break;
         case 'react-package':
             reactPackage(project);
