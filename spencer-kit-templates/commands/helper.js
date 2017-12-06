@@ -26,8 +26,8 @@ function mv(src, dest,callback) {
             if (fs.existsSync(destFile) && fs.statSync(destFile).isDirectory()) {
                 destFile = path.join(destFile, path.basename(file));
             }
-            if(destFile.match(/\b_[^\/\\]+/)){
-                destFile.replace('_', '.');
+            if(destFile.match(/\b_[^\\\/]*$/)){
+                destFile = destFile.replace('_', '.');
             }
             fs.writeFileSync(destFile, fs.readFileSync(file));
             // fs.createReadStream(file).pipe(fs.createWriteStream(destFile));
@@ -48,8 +48,8 @@ function cp(src, dest,callback) {
             if (fs.existsSync(destFile) && fs.statSync(destFile).isDirectory()) {
                 destFile = path.join(destFile, path.basename(file));
             }
-            if(destFile.match(/\b_[^\/\\]+/)){
-                destFile.replace('_', '.');
+            if(destFile.match(/\b_[^\\\/]*$/)){
+                destFile = destFile.replace('_', '.');
             }
             fs.writeFileSync(destFile, fs.readFileSync(file));
             // fs.createReadStream(file).pipe(fs.createWriteStream(destFile));
