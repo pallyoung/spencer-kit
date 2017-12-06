@@ -20,7 +20,6 @@ var defaultConfig = {
         ],
     },
     plugins: [
-        cssExtractTextPlugin
     ],
     externals: {
         'react': 'React',
