@@ -16,21 +16,6 @@ var defaultConfig = {
                 test: /\.js$/,
                 loader: 'babel-loader',
                 exclude: path.resolve('node_modules')
-            },
-            {
-                test: /\.css$/,
-                loader: cssExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' })
-            },
-            {
-                test: /\.scss$/,
-                use: cssExtractTextPlugin.extract({
-                    use: [{
-                        loader: "css-loader"
-                    }, {
-                        loader: "sass-loader"
-                    }],
-                    fallback: "style-loader"
-                })
             }
         ],
     },

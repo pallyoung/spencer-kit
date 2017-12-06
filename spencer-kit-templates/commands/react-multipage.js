@@ -19,8 +19,6 @@ var devDependencies = [
     'babel-preset-react',
     'babel-preset-stage-2',
     'babel-preset-flow',
-    'css-loader',
-    'extract-text-webpack-plugin',
     'glob',
     'gulp',
     'gulp-clean-css',
