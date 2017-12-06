@@ -54,7 +54,7 @@ function buildConfig(argv) {
     var entry = argv[1];
     var output = argv[2];
     if (env == 'dev') {
-        config.devtool = 'cheap-module-eval-source-map';
+        config.devtool = 'source-map';
         config.plugins.concat([
             new webpack.DefinePlugin({
                 env: JSON.stringify(env),
@@ -65,7 +65,7 @@ function buildConfig(argv) {
             })
         ])
     } else {
-        config.devtool = 'cheap-module-source-map';
+        config.devtool = 'source-map';
         config.plugins.concat([
             new webpack.DefinePlugin({
                 env: JSON.stringify(env),

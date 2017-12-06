@@ -9,6 +9,7 @@ var replace = require('gulp-replace');
 var hash = require('gulp-hash');
 var inject = require('gulp-inject');
 var concat = require('gulp-concat');
+var sourcemaps = require('gulp-sourcemaps');
 var minifyCss = require('gulp-clean-css');
 var uglify = require('gulp-uglify');
 
@@ -165,7 +166,7 @@ function HTMLComplie(config, template) {
 function webpack(env, entry, output) {
     entry = encodeURI(JSON.stringify(entry));
     sh.exec('webpack --colors --env=' + env + '--' + entry + '--' + output +
-        ' --progress --profile --define process.env.NODE_ENV=\'production\'');
+        ' --progress --profile');
 }
 
 
@@ -218,7 +219,9 @@ function concatJS(list, DIST) {
         }
         for (var js in list) {
             gulp.src(list[js]).
+                pipe(sourcemaps.init()).
                 pipe(concat(js + '.js')).
+                pipe(sourcemaps.write()).
                 pipe(gulp.dest(DIST))
                 .addListener('end', checkReady);
             taskList.push(true)

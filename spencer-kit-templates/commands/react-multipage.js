@@ -24,7 +24,8 @@ var devDependencies = [
     'gulp',
     'gulp-clean-css',
     'gulp-concat',
-    'gulp-connect',    
+    'gulp-connect',
+    'gulp-sourcemaps',
     'gulp-hash',
     'gulp-inject',
     'gulp-rename',
@@ -37,7 +38,7 @@ var devDependencies = [
     'http-proxy-middleware',
 ];
 
-function exec(projectName) {
+function exec(projectName,options) {
     var json = JSON.parse(fs.readFileSync('package.json'));
     json.scripts = {
         start:'node build.js --env dev --dist dist --entry project.js',
@@ -50,8 +51,21 @@ function exec(projectName) {
     helper.replace('buildConfig/BuildConfig.js',/helloworld/g,projectName);  
     helper.replace('project.js',/helloworld/g,projectName);  
     helper.replace('README.md',/helloworld/g,projectName);
-    helper.exec('npm i ' + dependencies.join(' ') + ' -S');
-    helper.exec('npm i ' + devDependencies.join(' ') + ' -D');
+    options = options ||{};
+    
+    if(options.exec){
+        options.exec(projectName);
+    }
+    var dep = dependencies.join(' ')
+    if(options.dependencies){
+        dep += ' '+options.dependencies.join(' ')
+    }
+    var devDep = devDependencies.join(' ');
+    if(options.devDependencies){
+        devDep += ' '+options.devDependencies.join(' ')
+    }
+    helper.exec('npm i ' + dep + ' -S');
+    helper.exec('npm i ' + devDep + ' -D');
 }
 
 module.exports = exec;
