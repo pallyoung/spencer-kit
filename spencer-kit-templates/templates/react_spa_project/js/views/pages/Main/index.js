@@ -1,7 +1,8 @@
 'use strict'
 import React, { Component } from 'react';
+import ScreenComponent from './../../components/ScreenComponent';
 
-class Main extends Component {
+class Main extends ScreenComponent {
     static pageConfig = {
         path:'/'
     }
@@ -16,7 +17,7 @@ class Main extends Component {
             <p>welcome to use <a href='https://github.com/pallyoung/spencer-kit'>spencer-kit-cli</a></p>
             <p>get start to edit index.js</p>
             <p>project name {BuildConfig.project}</p>
-            <p>current env {BuildConfig.env}</p>
+            <p>current env {BuildConfig.ENV}</p>
         </div>
     }
 }

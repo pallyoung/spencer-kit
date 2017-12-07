@@ -16,12 +16,11 @@ class BackButton extends Component{
         }   
     }
     render(){
-        var {state} = this.props.navigation;
-        if(state.index==0){
+        var {routerState} = this.props.navigation;
+        if(routerState.index==0){
             return null;
         }
         return <Button style = {this.props.style} child = {this._render()}/>
     }
 }
-
 export default BackButton;

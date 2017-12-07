@@ -1,14 +1,15 @@
 'use strict'
 import React,{Component} from 'react';
+import ScreenComponent from './../components/ScreenComponent';
 
-class PageList extends Component{
+class PageList extends ScreenComponent{
     static pageConfig = {
         path:'/pagelist'
     }
     constructor(...props){
         super(...props);
         this.navigationOptions = {
-            title:'PageList'
+            title:'Page List'
         }
     }
     _renderList(){

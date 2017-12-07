@@ -42,7 +42,8 @@ class NavigatorFrame extends Component {
         const { router } = this.props;
         const state = this.state;
         const navigation = addNavigationHelpers({
-            state: this.state,
+            state:state.routes[state.index],
+            routerState:this.state,
             dispatch: this.dispatch,
         })
         const screenNavigation = addNavigationHelpers({

@@ -43,7 +43,6 @@ class Entry extends Component{
         APPContext.Routes = Routes;
 
         StoreManager.load(IndexStore).then(() => {                
-            // let initialRouteName = BuildConfig.ENV === 'DEBUG' ? 'PageList' : 'Main';
             this.state.navigation = createNavigation();
             this.setState({ inited: true });
         })
