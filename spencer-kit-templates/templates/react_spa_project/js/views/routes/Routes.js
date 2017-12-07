@@ -11,14 +11,18 @@ function isMap(o) {
 function isComponent(o) {
     return o instanceof (SceneComponent);
 }
+function lowerCase(s){
+    return s.toLowerCase();
+}
 function flattenPages(pages) {
-    var page;
+    var page,pageConfig;
     for (var o in pages) {
         page = pages[o];
         if (isMap(page)) {
             flattenPages(page);
         } else {
-            routes[o] = { screen: Screen(page) };
+            pageConfig = page.pageConfig||{};
+            routes[o] = { screen: Screen(page), ...pageConfig};
         }
     }
 }

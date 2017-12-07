@@ -43,14 +43,14 @@ class Entry extends Component{
         APPContext.Routes = Routes;
 
         StoreManager.load(IndexStore).then(() => {                
-            let initialRouteName = BuildConfig.ENV === 'DEBUG' ? 'PageList' : 'Main';
-            this.state.navigation = createNavigation(initialRouteName);
+            // let initialRouteName = BuildConfig.ENV === 'DEBUG' ? 'PageList' : 'Main';
+            this.state.navigation = createNavigation();
             this.setState({ inited: true });
         })
 
     }    
     resetNavigator(initialRouteName, initialRouteParams) {
-        initialRouteName = initialRouteName || NativeManager.ENV === 'DEBUG' ? 'PageList' : 'Main';
+        initialRouteName = initialRouteName || BuildConfig.ENV === 'DEBUG' ? 'PageList' : 'Main';
         this.setState({
             inited: true, 
             navigationKey: this.state.navigationKey + 1,

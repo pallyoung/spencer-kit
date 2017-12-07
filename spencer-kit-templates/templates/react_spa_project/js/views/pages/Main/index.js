@@ -2,8 +2,14 @@
 import React, { Component } from 'react';
 
 class Main extends Component {
+    static pageConfig = {
+        path:'/'
+    }
     constructor(...props) {
         super(...props);
+        this.navigationOptions = {
+            title:'Main'
+        }
     }
     render() {
         return <div className='content'>

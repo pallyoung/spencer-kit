@@ -1,7 +1,7 @@
 'use strict'
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import NavigationHeader from './../NavigationHeader';
+import NavigationHeader from './../NavigationHeader';
 
 // import Toast from './../Toast';
 // import Alert from './../Alert';
@@ -15,6 +15,21 @@ const ALERT_REF = 'ALERT_REF';
 const TOAST_REF = 'TOAST_REF';
 
 var ID = 1;
+const styles = {
+    screen:{
+        position:'relative'
+    },
+    content:{
+        position:'absolute',
+        bottom:0,
+        left:0,
+        right:0
+    },
+    header:{
+        height:'44px',
+        position:'relative'
+    }
+}
 function Screen(component) {
     class $Screen extends component {
         static childContextTypes = {
@@ -103,21 +118,16 @@ function Screen(component) {
             }
             return <div
                     style={{ height: '100%', width:'100%' }}>
-                {/* <NavigationHeader
+                <NavigationHeader
                     ref = {HEADER_REF}
+                    style = {styles.header}
                     navigation = {navigation}
                     getHeaderProps = {()=>$Screen.headerProps}
-                    {...headerProps}/> */}
+                    {...headerProps}/>
                 <div
-                    style={{ paddingTop:'44px',height: '100%', width:'100%' }}
+                    style={{width:'100%'}}
                     children = {super.render()}/>
             </div>
-        }
-    }
-    $Screen.navigationOptions = {
-        header:function(props){
-            $Screen.headerProps = props;
-            return null;
         }
     }
     return $Screen
