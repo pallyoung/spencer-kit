@@ -67,16 +67,16 @@ module.exports = function (env) {
              * different release type will use different config
              */
             dev:{
-                env:'dev'
+                ENV:'dev'
             },
             ft:{
-                env:'ft'
+                ENV:'ft'
             },
             uat:{
-                env:'uat'
+                ENV:'uat'
             },
             prod:{
-                env:'prod'
+                ENV:'prod'
             }
         },
          /**
