@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <script>
+        (function () {
+            window.addEventListener('touchmove',function(e){e.stopPropagation()},false);
+            var rem = 20, width = 375;
+            var clientWidth = document.documentElement.clientWidth;
+            rem = rem/375*clientWidth;
+            if(rem<12){
+                rem = 12;
+            }else if(rem>40){
+                rem = 20;
+            }
+            document.write('\<style\>html{font-size:'+rem+'px;height:'+document.documentElement.clientHeight+'px}\</style>');
+        })();
+    </script>
+    <!-- js:js -->
+
+    <!-- endinject -->
+
+    <!-- css:css -->
+
+    <!-- endinject -->
+
+    <title>
+        <%= config.title %>
+    </title>
+</head>
+
+<body>
+    <div id='react-placeholder' data-react='html_placeholder'></div>
+</body>
+
+</html>

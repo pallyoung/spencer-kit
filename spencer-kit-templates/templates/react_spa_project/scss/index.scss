@@ -1,0 +1,24 @@
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-magin-before: 0;
+    -webkit-magin-after: 0;
+    -webkit-magin-start: 0;
+    -webkit-magin-end: 0;
+}
+#react-placeholder,
+body,
+html {
+    -ms-touch-action: none;
+    touch-action:none;
+     -webkit-overflow-scrolling: touch;
+    height: 100%;
+    width: 100%;
+}
+#react-placeholder,body{
+    font-size: inherit;
+    background:#f0f0f0;
+    width: 18.75rem;
+    margin: 0 auto;
+    background:#fff;
+}
