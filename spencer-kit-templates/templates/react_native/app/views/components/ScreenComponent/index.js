@@ -25,4 +25,4 @@ class ScreenComponent extends Component{
     }
 }
 
-export default Component;
+export default ScreenComponent;
