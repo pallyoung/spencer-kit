@@ -12,7 +12,7 @@ import {
 import ScreenComponent from './../../components/ScreenComponent';
 import {Theme} from 'react-native-improver';
 var currentTheme = Theme.getTheme();
-class PageList extends ScreenComponent{
+class Main extends ScreenComponent{
     constructor(...props){
         super(...props);
         this.navigationOptions = {
@@ -27,4 +27,4 @@ class PageList extends ScreenComponent{
            </View>
     }
 }
-export default PageList;
+export default Main;
