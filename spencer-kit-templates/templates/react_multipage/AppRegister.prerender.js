@@ -10,13 +10,6 @@ global.window = {};
 global.navigator = {
     userAgent: ''
 }
-// global.mlux = {
-//     StoreManager:{
-//         load:function(){
-//             return Promise.resolve()
-//         }
-//     }
-// }
 window.jquery = {};
 window.document = {
     getElementById: function () {

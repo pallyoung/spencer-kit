@@ -4,7 +4,8 @@ var fs = require('fs');
 var sh = require('shelljs');
 
 var dependencies = [
-    "mlux",
+    "febrest",
+    "react-febrest",
     "prop-types",
     "react",
     "react-native",

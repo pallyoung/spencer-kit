@@ -7,7 +7,8 @@ var dependencies = [
     'es5-shim',
     'es6-shim',
     'es7-shim',
-    'mlux',
+    'febrest',
+    'react-febrest',
     'web-http',
     'js-console'
 ];
