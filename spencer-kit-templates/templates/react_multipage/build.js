@@ -17,6 +17,9 @@ var connect = require('gulp-connect');
 
 var proxy = require('http-proxy-middleware');
 
+var webpack = require('webpack');
+var webpackConfig = require('./webpack.config');
+
 
 var options = minimist(process.argv.slice(2));
 
@@ -42,16 +45,16 @@ var serverConfig = {
      * proxy config,you can uncomment the code below for cross 
      * origin ajax;
      */
-    // middleware: function (connect, opt) {
-    //     return [
-    //         proxy( function (pathname, req) {
-    //             return pathname.match('^/ppi');
-    //         }, {
-    //             target: 'https://proxyapi.com',
-    //             changeOrigin: true,
-    //         })
-    //     ]
-    // }
+     middleware: function (connect, opt) {
+         return [
+             proxy( function (pathname, req) {
+                 return pathname.match('^/PC');
+             }, {
+                 target: '',
+                 changeOrigin: true,
+             })
+         ]
+     }
 }
 function meger(source,dest){
     for(var o in source){
@@ -109,7 +112,7 @@ function HTMLgenerate(pages) {
             injectFiles.push({
                 name: 'css',
                 files: config.css.map(function (name) {
-                    return DIST + '/css/' + name.replace('\.', '*\.');
+                    return DIST + '/css/pc/' + name.replace('\.', '*\.');
                 })
             })
         }
@@ -120,10 +123,12 @@ function HTMLgenerate(pages) {
                 template = injectFile(template, config);
             });
             if(config.prerender&&ENV!=='dev'){
-                require('./AppRegister.prerender');                
+                require('./AppRegister.prerender'); 
+                global.BuildConfig = getBuildConfig();
                 var files = [];
                 injectFiles[0].files.forEach(function(v){
                     if(v.indexOf('react') <0){
+                        console.log(v)
                         files.push(v);
                     }
                 })
@@ -163,16 +168,37 @@ function HTMLComplie(config, template) {
     )).pipe(rename(config.output));
 }
 
-function webpack(env, entry, output) {
-    entry = encodeURI(JSON.stringify(entry));
-    sh.exec('webpack --colors --env=' + env + '--' + entry + '--' + output +
-        ' --progress --profile');
+function runWebpack(env, entry, output) {
+    // entry = encodeURI(JSON.stringify(entry));
+    return new Promise(function (resolve, reject) {
+        if (!entry) {
+            resolve();
+        } else {
+            entry = encodeURI(JSON.stringify(entry));
+            let config = webpackConfig;
+            let argv = env + '--' + entry + '--' + output;
+            if (typeof config === 'function') {
+                config = config(argv);
+            }
+            var compiler = webpack(config);
+            compiler.run(function (err, stats) {
+                resolve();
+                webpackCompiler = compiler;
+                console.log(stats.toString({
+                    colors: true
+                }));
+            });
+
+        }
+    })
+    // webpacks.Compiler
+    // sh.exec('webpack --colors --env=' + env + '--' + entry + '--' + output +
+    //     ' --progress --profile');
 }
 
 
 
 function hashmifify() {
-    return Promise.resolve();
     var readyList = [];
     if (ENV == 'dev') {
         return Promise.resolve();
@@ -195,7 +221,7 @@ function hashmifify() {
                 pipe(gulp.dest(DIST + '/css'))
                 .addListener('end', checkReady);
 
-            gulp.src([DIST + '/js1/**']).
+            gulp.src([DIST + '/js1/**.js']).
                 pipe(uglify()).
                 pipe(hash()).
                 pipe(gulp.dest(DIST + '/js')).
@@ -230,6 +256,12 @@ function concatJS(list, DIST) {
 }
 
 
+function getBuildConfig(){
+    var buildConfig = projectConfig.buildConfig&&projectConfig.buildConfig.defaultConfigs||{};
+    var envBuildConfig = projectConfig.buildConfig&&projectConfig.buildConfig[ENV];
+    buildConfig = meger(envBuildConfig,buildConfig);
+    return buildConfig;
+}
 
 //buile config
 function generateBuildConfigJS(dir){
@@ -270,9 +302,11 @@ function js() {
     }
     generateBuildConfigJS(jsDIR);
     if (projectConfig.webpackEntry) {
-        webpack(ENV, projectConfig.webpackEntry,jsDIR);
+        return runWebpack(ENV, projectConfig.webpackEntry,jsDIR).then(function(){
+            return concatJS(projectConfig.commonJS, jsDIR);
+        });
     }
-    return concatJS(projectConfig.commonJS, jsDIR);
+    
 
 }
 function clear() {
@@ -290,6 +324,21 @@ function server() {
     if (ENV == 'dev') {
         connect.server(serverConfig);
         var delayer = new TaskDelayer();
+        var webpackWatching = webpackCompiler.watch({
+            aggregateTimeout: 1000,
+            ignored:[
+                /node_modules/,
+                /dist/
+            ]
+        }, function (err, stats) {
+            console.log(stats.toString({
+                chunks: false, 
+                colors: true
+            }))
+            console.log(new Date()+'reload')
+            
+            //arguments.callee.apply(null, arguments);
+        })
         gulp.watch(['asset/**'], function () {
             delayer.delay(function () {
                 asset();
@@ -298,18 +347,11 @@ function server() {
                 })
             }, 'asset')
         })
-        gulp.watch([ projectConfig.scssDIR + '/**'], function () {
+        gulp.watch([projectConfig.scssDIR + '/**'], function () {
             delayer.delay(function () {
                 css().then(function () {
                     connect.reload();
                 });
-            }, 'scss')
-        })
-        gulp.watch(['js/**'], function () {
-            delayer.delay(function () {
-                js().then(function () {
-                    connect.reload();
-                })
             }, 'scss')
         })
     }
