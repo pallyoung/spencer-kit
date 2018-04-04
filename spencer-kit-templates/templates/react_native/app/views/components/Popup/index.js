@@ -19,7 +19,7 @@ class Popup extends Component {
             easing={config.easing}
             style={config.style || { backgroundColor: 'rgba(120,120,120,0.5)' }}
             onModalShow={this._onModalShow}
-            onModalColse={this._onModalClose}
+            onModalClose={this._onModalClose}
             onBackPress={this._onBackPress}
             onBackdropPress={this._onBackdropPress}
             animationType={config.animationType} />
