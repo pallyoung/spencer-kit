@@ -3,7 +3,7 @@ package com.domain.helloworld;
 import android.app.Application;
 
 import com.domain.rnpackage.RNPackage;
-import com.facebook.helloworld.BuildConfig;
+import com.domain.helloworld.BuildConfig;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;

@@ -5,7 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 
 import com.domain.helloworld.MainActivity;
-import com.facebook.helloworld.BuildConfig;
+import com.domain.helloworld.BuildConfig;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
