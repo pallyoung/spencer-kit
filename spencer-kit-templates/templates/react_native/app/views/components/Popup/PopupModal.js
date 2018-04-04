@@ -6,7 +6,7 @@ class PopupModal extends Component {
     constructor(...props) {
         super(...props);
         this.state = {
-            show: ture
+            show: true
         }
     }
     _onBackPress = () => {
