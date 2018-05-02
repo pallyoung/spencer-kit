@@ -39,6 +39,7 @@ function exec(projectName) {
             helper.replace(file, /helloworld/g, projectName);
         }
     });
+    fs.writeFileSync('package.json',JSON.stringify(json,null,2));
     helper.exec('npm i ' + dependencies.join(' ') + ' -S');
     helper.exec('npm i ' + devDependencies.join(' ') + ' -D');
 }
