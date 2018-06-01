@@ -19,10 +19,10 @@ class Button extends Component {
                 right: 20,
                 justifyContent: 'flex-end',
             },
-            back:{
+            back: {
                 left: 0,
                 justifyContent: 'flex-start',
-                width:120
+                width: 120
             }
         }
         return <View
@@ -30,7 +30,7 @@ class Button extends Component {
                 width: 100,
                 flexDirection: 'row',
                 position: 'absolute',
-                top: IOS?20:0,
+                top: IOS ? 20 : 0,
                 bottom: 0,
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -48,7 +48,7 @@ class Title extends Component {
         return <View
             style={{
                 position: 'absolute',
-                top: IOS?20:0,
+                top: IOS ? 20 : 0,
                 bottom: 0,
                 left: 60,
                 right: 60,
@@ -69,43 +69,47 @@ export default class Header extends Component {
             canGoBack: false,
             show: this.props.header === null ? false : true,
             leftButton: this.props.leftButton,
-            rightButton: this.props.rightButton
+            rightButton: this.props.rightButton,
+            props: this.props
         }
     }
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.title!==this.props.title){
-            this.state.title = nextProps.title;
+    static getDerivedStateFromProps(nextProps, prevState) {
+        let props = prevState.props;
+        let nextState = {}
+        if (nextProps.title !== props.title) {
+            nextState.title = nextProps.title;
         }
-        if(nextProps.leftButton!==this.props.leftButton){
-            this.state.leftButton = nextProps.leftButton;
+        if (nextProps.leftButton !== props.leftButton) {
+            nextState.leftButton = nextProps.leftButton;
         }
-        if(nextProps.rightButton!==this.props.rightButton){
-            this.state.rightButton = nextProps.rightButton;
+        if (nextProps.rightButton !== props.rightButton) {
+            nextState.rightButton = nextProps.rightButton;
         }
+        nextState.props = nextProps;
+        return nextState;
     }
-    
+
     updateInfo(info) {
         this.setState(info);
     }
     _renderLeftButton() {
         var leftButton;
-        var headerProps = this.props.getHeaderProps();
         var navigation = this.props.navigation;
         if (typeof this.state.leftButton === 'object') {
             return <Button
                 type='left'
                 children={this.state.leftButton} />;
-        } else if ((headerProps.scene.index !== 0 || APPContext.isLoginPopupShow)) {
+        } else if ((navigation.state.index !== 0 || APPContext.isLoginPopupShow)) {
             return <Button
                 type='back'
-                children={this._backButton(headerProps, navigation)} />;
+                children={this._backButton(navigation)} />;
         }
         return null;
     }
-    _backButton(headerProps, navigation) {
+    _backButton(navigation) {
         return <TouchableOpacity
-            style={{ flex:1, justifyContent: 'center',paddingLeft:20, }}
-            onPress={headerProps.scene.index !== 0 ? () => navigation.goBack() : () => APPContext.hideLoginPopup()}
+            style={{ flex: 1, justifyContent: 'center', paddingLeft: 20, }}
+            onPress={navigation.state.index !== 0 ? () => navigation.goBack() : () => APPContext.hideLoginPopup()}
             children={
                 <Image source={require('./Arrow.png')} />
             }
@@ -135,7 +139,7 @@ export default class Header extends Component {
         }
         return <View
             style={[
-                {backgroundColor:'#fff'},
+                { backgroundColor: '#fff' },
                 this.props.style,
                 {
                     height: IOS ? 64 : 44,

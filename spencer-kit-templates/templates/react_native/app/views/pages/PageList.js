@@ -1,5 +1,5 @@
 'use strict'
-import React from 'react';
+import React,{Component} from 'react';
 import {
     View,
     ListView,
@@ -8,12 +8,12 @@ import {
     TouchableOpacity,
     Text
 }from 'react-native';
-import ScreenComponent from './../components/ScreenComponent';
-// import {TabNavigator,DrawerNavigator} from 'react-navigation';
+import NavigationManager from './../../util/NavigationManager';
+
 
 import {Theme} from 'react-native-improver';
 var currentTheme = Theme.getTheme();
-class PageList extends ScreenComponent{
+class PageList extends Component{
     constructor(...props){
         super(...props);
         this.navigationOptions = {
@@ -35,7 +35,7 @@ class PageList extends ScreenComponent{
                     }}
                     key = {item.item}
                     onPress = {()=>{
-                        this.getScreen().getNavigation().navigate(item.item);
+                        NavigationManager.navigate(item.item);
                     }}><Text>{item.item}</Text></TouchableOpacity>
     }
     render(){
