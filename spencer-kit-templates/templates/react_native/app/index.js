@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { Theme } from 'react-native-improver';
 var currentTheme = Theme.getTheme();
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import Routes from './views/routes/Routes';
 import { NativeManager } from './native';
 import BuildConfig from './BuildConfig';
@@ -20,7 +20,7 @@ import Loading from './views/components/Loading';
 import Screen from './views/components/Screen'
 
 function createNavigation(initialRouteName, initialRouteParams) {
-    return StackNavigator(Routes, {
+    return createStackNavigator(Routes, {
         initialRouteName,
         initialRouteParams,
     });
